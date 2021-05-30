@@ -5,13 +5,15 @@ class World {
     camera;
     character;
     backgroundHandler;
+    keyboard;
 
     fps = 60;
 
     constructor(canvas) {
+        this.keyboard = new Keyboard();
         this.camera = new Camera(this, canvas);
         this.backgroundHandler = new BackgroundHandler(this);
-        this.character = new Character(this, 150, 250);
+        this.character = new Character(this, 150, 250, this.keyboard);
 
     }
 
@@ -42,13 +44,16 @@ class World {
 
 
     process(delta) {
-
+        this.character.process(delta);
+        this.camera.addX(this.character.getAddX());
     }
 
     draw() {
         this.camera.clear();
+        this.camera.setDrawingPosition();
         this.backgroundHandler.draw(this.camera);
         this.character.draw(this.camera);
+        this.camera.removeDrawingPosition();
     }
 
 }

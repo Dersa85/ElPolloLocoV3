@@ -15,4 +15,12 @@ class Camera extends Object2D {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    setDrawingPosition() {
+        this.ctx.translate(-this.getX(), 0);
+    }
+
+    removeDrawingPosition() {
+        this.ctx.translate(this.getX(), 0);
+    }
+
 }

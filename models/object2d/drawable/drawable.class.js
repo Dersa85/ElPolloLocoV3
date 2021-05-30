@@ -21,8 +21,20 @@ class Drawable extends Object2D {
     }
 
     loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }    
+        let img = new Image()
+        img.src = path;
+        this.img = img;
+    }
+    
+
+    getImagesArray(paths) {
+        let imagesArray = []
+        paths.forEach(path => {
+            let img = new Image();
+            img.src = path;
+            imagesArray.push(img);
+        });
+        return imagesArray;
+    }
 
 }
