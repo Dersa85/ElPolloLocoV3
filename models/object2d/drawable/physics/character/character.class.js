@@ -99,7 +99,7 @@ class Character extends Physics {
         this.keyboard = keyboard;
         this.y = 180;
         this.x = 150;
-        this.speedX = 1;
+        this.speedX = 0.9;
         this.ground = 180;
         this.lastInputTimeStemp = Date.now();
     }
@@ -111,7 +111,7 @@ class Character extends Physics {
         }
 
         let moveXdirection = this.pressedForMovingHorizontal();
-        this.addX(moveXdirection * this.speedX * delta);
+        this.moveToDirection(moveXdirection * this.speedX * delta);
         this.checkPressedJump();
         
         this.stateMaschine();
@@ -229,5 +229,14 @@ class Character extends Physics {
     changeStateTo(newState) {
         this.resetOldAnimation();
         this.state = newState;
+    }
+
+    moveToDirection(value) {
+        if (value < 0) {
+            this.isImgFlipped = true;
+        } else if (value > 0) {
+            this.isImgFlipped = false;
+        }
+        super.addX(value);
     }
 }
