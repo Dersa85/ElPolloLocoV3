@@ -37,4 +37,8 @@ class Drawable extends Object2D {
         return imagesArray;
     }
 
+    getWidth() {
+        return this.width;
+    }
+
 }

@@ -12,8 +12,8 @@ class World {
     constructor(canvas) {
         this.keyboard = new Keyboard();
         this.camera = new Camera(this, canvas);
-        this.backgroundHandler = new BackgroundHandler(this);
         this.character = new Character(this, 150, 250, this.keyboard);
+        this.backgroundHandler = new BackgroundHandler(this, this.character);
 
     }
 
@@ -46,6 +46,7 @@ class World {
     process(delta) {
         this.character.process(delta);
         this.camera.addX(this.character.getAddX());
+        this.backgroundHandler.process(delta);
     }
 
     draw() {

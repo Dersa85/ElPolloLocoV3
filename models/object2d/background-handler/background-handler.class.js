@@ -2,37 +2,78 @@
 
 class BackgroundHandler extends Object2D {
 
-    camera;
-    level_0 = [];
-    level_1 = [];
-    level_2 = [];
-    level_3 = [];
-    level_4 = [];
+    character;
+    skys = [];
+    clouds = [];
+    mountains = [];
+    hills = [];
+    grounds = [];
 
-    constructor(parent) {
+    constructor(parent, character) {
         super(parent);
-        this.level_0.push(new Sky(this,800, 480));
-        this.level_1.push(new Cloud(this,1600, 480));
-        this.level_2.push(new Mountains(this,1600, 480));
-        this.level_3.push(new Hills(this,1600, 480));
-        this.level_4.push(new Ground(this,1600, 480));
+        this.character = character;
+        this.addSky();
+        this.addMovablebackgroundInArray(this.clouds, Cloud);
+        this.addMovablebackgroundInArray(this.mountains, Mountains);
+        this.addMovablebackgroundInArray(this.hills, Hills);
+        this.addMovablebackgroundInArray(this.grounds, Ground);
+    }
+
+    addSky() {
+        this.skys.push(new Sky(this,800, 480));
+    }
+
+    addMovablebackgroundInArray(array, object) {
+        for (let i = -1; i < 2; i++) {
+            let width = 1600;
+            let height = 480;
+            let instance = new object(this, width, height);
+            instance.setStartPosition(width * i);
+            array.push(instance);
+        }
     }
 
     draw(camera) {
-        for (let i = 0; i < this.level_0.length; i++) {
-            this.level_0[i].draw(camera);
+        this.drawBGArray(camera, this.skys);
+        this.drawBGArray(camera, this.clouds);
+        this.drawBGArray(camera, this.mountains);
+        this.drawBGArray(camera, this.hills);
+        this.drawBGArray(camera, this.grounds);
+    }
+
+    process(delta) {
+        this.moveRelativToCharacter(this.skys);
+        this.moveRelativToCharacter(this.clouds);
+        this.moveRelativToCharacter(this.mountains);
+        this.moveRelativToCharacter(this.hills);
+        this.moveRelativToCharacter(this.grounds);
+        
+
+    }
+
+    moveRelativToCharacter(array) {
+        for (let i = 0; i < array.length; i++) {
+            let movingX = this.character.getAddX();
+            array[i].paralaxMoving(movingX);
+            this.checkForReposition(array[i]);
         }
-        for (let i = 0; i < this.level_1.length; i++) {
-            this.level_1[i].draw(camera);
+    }
+
+    drawBGArray(camera, array) {
+        for (let i = 0; i < array.length; i++) {
+            array[i].draw(camera);
         }
-        for (let i = 0; i < this.level_2.length; i++) {
-            this.level_2[i].draw(camera);
+    }
+
+    checkForReposition(object) {
+        console.log(typeof(object))
+        let width = object.getWidth();
+        let difference =  object.getX() - this.character.getX();
+        if (difference < -width*1.5) {
+            object.reposition(width*2);
+        } else if (difference > width*0.5) {
+            object.reposition(-width*2);
         }
-        for (let i = 0; i < this.level_3.length; i++) {
-            this.level_3[i].draw(camera);
-        }
-        for (let i = 0; i < this.level_4.length; i++) {
-            this.level_4[i].draw(camera);
-        }
+        
     }
 }
