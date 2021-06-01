@@ -4,7 +4,7 @@ class Physics extends Drawable {
 
     speedX = 0;
     speedY = 0;
-    jumpPower = -0.7;
+    
 
     ground = 0;
     gravityPower = 0.0012;

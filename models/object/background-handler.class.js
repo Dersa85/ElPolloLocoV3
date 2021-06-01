@@ -1,6 +1,6 @@
 
 
-class BackgroundHandler extends Object2D {
+class BackgroundHandler extends Object {
 
     character;
     skys = [];
@@ -66,7 +66,6 @@ class BackgroundHandler extends Object2D {
     }
 
     checkForReposition(object) {
-        console.log(typeof(object))
         let width = object.getWidth();
         let difference =  object.getX() - this.character.getX();
         if (difference < -width*1.5) {
@@ -74,6 +73,7 @@ class BackgroundHandler extends Object2D {
         } else if (difference > width*0.5) {
             object.reposition(-width*2);
         }
-        
     }
+
+    
 }

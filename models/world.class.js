@@ -5,6 +5,7 @@ class World {
     camera;
     character;
     backgroundHandler;
+    bottleHandler;
     keyboard;
 
     fps = 60;
@@ -14,7 +15,8 @@ class World {
         this.camera = new Camera(this, canvas);
         this.character = new Character(this, 150, 250, this.keyboard);
         this.backgroundHandler = new BackgroundHandler(this, this.character);
-
+        this.bottleHandler = new BottleHandler(this)
+        this.bottleHandler.createNewBottle(200, 200); //TEST
     }
 
     start() {
@@ -47,13 +49,18 @@ class World {
         this.character.process(delta);
         this.camera.addX(this.character.getAddX());
         this.backgroundHandler.process(delta);
+        this.bottleHandler.process(delta);
     }
 
     draw() {
         this.camera.clear();
         this.camera.setDrawingPosition();
+        
         this.backgroundHandler.draw(this.camera);
         this.character.draw(this.camera);
+        this.bottleHandler.draw(this.camera);
+        
+        
         this.camera.removeDrawingPosition();
     }
 

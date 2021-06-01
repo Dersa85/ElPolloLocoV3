@@ -89,6 +89,7 @@ class Character extends Physics {
         }
     }
 
+    jumpPower = -0.7;
     lastInputTimeStemp;
     state = 'idle';
     keyboard;
@@ -99,7 +100,7 @@ class Character extends Physics {
         this.keyboard = keyboard;
         this.y = 180;
         this.x = 150;
-        this.speedX = 0.9;
+        this.speedX = 0.7;
         this.ground = 180;
         this.lastInputTimeStemp = Date.now();
     }
