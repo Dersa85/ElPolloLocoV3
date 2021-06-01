@@ -93,11 +93,14 @@ class Character extends Physics {
     lastInputTimeStemp;
     state = 'idle';
     keyboard;
+    bottleHandler;
+    throwCD = 500;
+    lastThrow = 0;
     
-    
-    constructor(parent, width, height, keyboard) {
+    constructor(parent, width, height, keyboard, bottleHandler) {
         super(parent, width, height);
         this.keyboard = keyboard;
+        this.bottleHandler = bottleHandler;
         this.y = 180;
         this.x = 150;
         this.speedX = 0.7;
@@ -110,6 +113,8 @@ class Character extends Physics {
         if (!this.keyboard.isNothingPressed()) {
             this.lastInputTimeStemp = Date.now();
         }
+
+        this.checkThrow();
 
         let moveXdirection = this.pressedForMovingHorizontal();
         this.moveToDirection(moveXdirection * this.speedX * delta);
@@ -165,6 +170,13 @@ class Character extends Physics {
         }
     }
 
+    checkThrow() {
+        if(this.keyboard.isPressedFire() && Date.now() - this.lastThrow > this.throwCD) {
+            this.throwBottle()
+            this.lastThrow = Date.now();
+        }
+    }
+
     //##### CHECK STATE #####//
 
     stateMaschine() {
@@ -191,7 +203,7 @@ class Character extends Physics {
     }
 
     checkForIdle() {
-        if (this.keyboard.isNothingPressed()) {
+        if (!this.keyboard.isMovingPressed()) {
             this.changeStateTo('idle');
         }
     }
@@ -239,5 +251,12 @@ class Character extends Physics {
             this.isImgFlipped = false;
         }
         super.addX(value);
+    }
+
+    throwBottle() {
+        let fromX = this.getX() + 50;
+        let fromY = this.getY() + 150;
+        this.bottleHandler.createNewBottle(fromX, fromY, this.isImgFlipped)
+        console.log('THROW');
     }
 }

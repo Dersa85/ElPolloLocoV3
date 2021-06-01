@@ -45,6 +45,9 @@ class Keyboard {
     isNothingPressed() {
         return !(this.RIGHT || this.LEFT || this.SPACE || this.UP);
     }
+    isMovingPressed() {
+        return this.RIGHT || this.LEFT
+    }
     isPressedUp() {
         return this.UP;
     }
