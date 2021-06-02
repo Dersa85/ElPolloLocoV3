@@ -2,6 +2,7 @@
 
 class World {
 
+    canvas;
     camera;
     character;
     backgroundHandler;
@@ -10,7 +11,10 @@ class World {
 
     fps = 60;
 
+    
+
     constructor(canvas) {
+        this.canvas = canvas;
         this.keyboard = new Keyboard();
         this.camera = new Camera(this, canvas);
         this.bottleHandler = new BottleHandler(this);
@@ -63,5 +67,7 @@ class World {
         
         this.camera.removeDrawingPosition();
     }
+
+    
 
 }

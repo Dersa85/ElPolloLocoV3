@@ -1,4 +1,5 @@
 body {
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,4 +7,18 @@ body {
 
 canvas {
     background-color: black;
+    max-width: 800px;
+    max-height: 480px;
+    object-fit: contain;
+}
+
+.full-screen {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+}
+
+.d-none {
+    display: none;
 }
