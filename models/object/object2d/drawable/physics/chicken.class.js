@@ -32,7 +32,7 @@ class Chicken extends Physics {
     constructor(parent) {
         super(parent);
         this.ground = 363;
-        this.speedX = -0.2;
+        this.speedX = -0.2 + Math.random() * 0.1;
         this.width = 60;
         this.height = 60;
     }

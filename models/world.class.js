@@ -8,6 +8,7 @@ class World {
     backgroundHandler;
     bottleHandler;
     enemyHandler;
+    levelHandler;
     keyboard;
 
     fps = 60;
@@ -22,6 +23,7 @@ class World {
         this.character = new Character(this, this.keyboard, this.bottleHandler);
         this.backgroundHandler = new BackgroundHandler(this, this.character);
         this.enemyHandler = new EnemyHandler(this, this.character);
+        this.levelHandler = new LevelHandler(this, this.character, this.enemyHandler)
         this.enemyHandler.createBigChicken(2000, 400);
         //this.enemyHandler.createSmallChicken(400, 400);
         //this.enemyHandler.createChicken(400, 400);
@@ -55,6 +57,7 @@ class World {
 
 
     process(delta) {
+        this.levelHandler.process(delta);
         this.character.process(delta);
         this.camera.addX(this.character.getAddX());
         this.backgroundHandler.process(delta);
