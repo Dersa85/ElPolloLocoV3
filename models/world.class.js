@@ -9,6 +9,7 @@ class World {
     bottleHandler;
     enemyHandler;
     levelHandler;
+    itemHandler;
     keyboard;
 
     fps = 60;
@@ -19,12 +20,14 @@ class World {
         this.canvas = canvas;
         this.keyboard = new Keyboard();
         this.camera = new Camera(this, canvas);
+        this.itemHandler = new ItemHandler(this);
         this.bottleHandler = new BottleHandler(this);
         this.character = new Character(this, this.keyboard, this.bottleHandler);
         this.backgroundHandler = new BackgroundHandler(this, this.character);
         this.enemyHandler = new EnemyHandler(this, this.character);
         this.levelHandler = new LevelHandler(this, this.character, this.enemyHandler)
-        this.enemyHandler.createBigChicken(2000, 400);
+        this.itemHandler.createCoint(500);
+        //this.enemyHandler.createBigChicken(2000, 400);
         //this.enemyHandler.createSmallChicken(400, 400);
         //this.enemyHandler.createChicken(400, 400);
         //this.bottleHandler.createNewBottle(200, 200); //TEST
@@ -57,6 +60,7 @@ class World {
 
 
     process(delta) {
+        this.itemHandler.process(delta);
         this.levelHandler.process(delta);
         this.character.process(delta);
         this.camera.addX(this.character.getAddX());
@@ -72,6 +76,7 @@ class World {
         this.backgroundHandler.draw(this.camera);
         this.bottleHandler.draw(this.camera);
         this.enemyHandler.draw(this.camera);
+        this.itemHandler.draw(this.camera);
         this.character.draw(this.camera);
         
         
