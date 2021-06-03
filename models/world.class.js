@@ -22,7 +22,7 @@ class World {
         this.character = new Character(this, this.keyboard, this.bottleHandler);
         this.backgroundHandler = new BackgroundHandler(this, this.character);
         this.enemyHandler = new EnemyHandler(this, this.character);
-        //this.enemyHandler.createBigChicken(2000, 400);
+        this.enemyHandler.createBigChicken(2000, 400);
         //this.enemyHandler.createSmallChicken(400, 400);
         //this.enemyHandler.createChicken(400, 400);
         //this.bottleHandler.createNewBottle(200, 200); //TEST
