@@ -6,5 +6,7 @@ class Mountains extends Background {
         super(parent, width, height);
         this.loadImage('./img/5.Fondo/Capas/3.Fondo3/Completo.png');
         this.paralaxValue = 0.6;
+        this.width = 1600;
+        this.height = 480;
     }
 }

@@ -20,7 +20,7 @@ class BackgroundHandler extends Object {
     }
 
     addSky() {
-        this.skys.push(new Sky(this,800, 480));
+        this.skys.push(new Sky(this));
     }
 
     addMovablebackgroundInArray(array, object) {

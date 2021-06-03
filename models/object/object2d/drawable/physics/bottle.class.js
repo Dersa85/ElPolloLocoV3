@@ -35,11 +35,13 @@ class Bottle extends Physics {
     state = 'fly';
     canDelete = false;
 
-    constructor(parent, width, height) {
-        super(parent, width, height);
+    constructor(parent) {
+        super(parent);
         this.ground = 392;
         this.speedX = 0.4;
         this.speedY = -0.4;
+        this.width = 50;
+        this.height = 50;
     }
 
     process(delta) {

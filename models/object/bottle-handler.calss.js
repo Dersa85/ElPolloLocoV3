@@ -11,7 +11,7 @@ class BottleHandler extends Object {
 
 
     createNewBottle(posX, posY, throwLeft) {
-        let bottle = new Bottle(this, 50, 50);
+        let bottle = new Bottle(this);
         bottle.setX(posX);
         bottle.setY(posY);
         if (throwLeft) {

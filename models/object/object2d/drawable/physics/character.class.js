@@ -97,14 +97,16 @@ class Character extends Physics {
     throwCD = 500;
     lastThrow = 0;
     
-    constructor(parent, width, height, keyboard, bottleHandler) {
-        super(parent, width, height);
+    constructor(parent, keyboard, bottleHandler) {
+        super(parent);
         this.keyboard = keyboard;
         this.bottleHandler = bottleHandler;
         this.y = 180;
         this.x = 150;
         this.speedX = 0.7;
         this.ground = 180;
+        this.width = 150;
+        this.height = 250;
         this.lastInputTimeStemp = Date.now();
     }
 
@@ -121,7 +123,6 @@ class Character extends Physics {
         this.checkPressedJump();
         
         this.stateMaschine();
-        
         
         this.playAnimation(delta);
     }

@@ -8,10 +8,8 @@ class Drawable extends Object2D {
 
     isImgFlipped = false;
 
-    constructor(parent, width, height) {
+    constructor(parent) {
         super(parent);
-        this.width = width;
-        this.height = height;
     }
 
     changeImage(newImage) {
