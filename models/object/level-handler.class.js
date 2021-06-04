@@ -5,6 +5,7 @@ class LevelHandler extends Object {
 
     character;
     enemyHandler;
+    itemHandler;
 
     pixelPerPrimary = 10000;
     pixelPerSecundary = 1000;
@@ -12,10 +13,11 @@ class LevelHandler extends Object {
     nextPrimaryStage = 1;
     nextSecundaryStage = 1;
 
-    constructor(parent, character, enemyHandler) {
+    constructor(parent, character, enemyHandler, itemHandler) {
         super(parent);
         this.character = character;
         this.enemyHandler = enemyHandler;
+        this.itemHandler = itemHandler;
     }
 
     process(delta) {
@@ -23,10 +25,12 @@ class LevelHandler extends Object {
             if (this.pixelPerPrimary * this.nextPrimaryStage < this.character.getX()) {
                 console.log('PRIMARY');
                 this.createBoss();
+                this.createCoin();
                 this.nextPrimaryStage++;
             } else {
                 console.log('SECUNDARY');
                 this.createChicken();
+                this.createBottle();
             }
             this.nextSecundaryStage++;
         }
@@ -41,8 +45,20 @@ class LevelHandler extends Object {
     }
 
     createBoss() {
-        let x = this.character.getX() + 1000
+        let x = this.character.getX() + 1000;
         let y = 185;
         this.enemyHandler.createBigChicken(x, y);
+    }
+
+    createBottle() {
+        for (let i = 0; i < this.nextPrimaryStage + 1; i++) {
+            let x = this.character.getX() + 1000 + Math.random() * 500 + i * 200;
+            this.itemHandler.createBottle(x);
+        }
+    }
+
+    createCoin() {
+        let x = this.character.getX() + 1000;
+            this.itemHandler.createCoin(x);
     }
 }

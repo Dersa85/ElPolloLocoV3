@@ -41,4 +41,9 @@ class BottleHandler extends Object {
         }
     }
 
+    getBottles() {
+        return this.bottles;
+    }
+
+    
 }

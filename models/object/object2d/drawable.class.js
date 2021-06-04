@@ -5,11 +5,14 @@ class Drawable extends Object2D {
     img = new Image();
     width = 0;
     height = 0;
+    offsetX = 0;
+    offsetY = 0;
 
     isImgFlipped = false;
 
     constructor(parent) {
         super(parent);
+        
     }
 
     changeImage(newImage) {
@@ -21,6 +24,7 @@ class Drawable extends Object2D {
             this.flipImg(camera);
         }
         camera.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        camera.drawCollisionCircle(this);
 
         if (this.isImgFlipped) {
             this.flipImgBack(camera);
@@ -58,6 +62,17 @@ class Drawable extends Object2D {
 
     getWidth() {
         return this.width;
+    }
+
+    getHeight() {
+        return this.height;
+    }
+
+    getCenterX() {
+        return this.getX() + this.getWidth() * 0.5 + this.offsetX;
+    }
+    getCenterY() {
+        return this.getY() + this.getHeight() * 0.5 + this.offsetY;
     }
 
 }

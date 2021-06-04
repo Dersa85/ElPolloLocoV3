@@ -23,4 +23,10 @@ class Camera extends Object2D {
         this.ctx.translate(this.getX(), 0);
     }
 
+    drawCollisionCircle(object) {
+        this.ctx.beginPath();
+        this.ctx.arc(object.getCenterX(), object.getCenterY(), object.collisionDiameter, 0, 2 * Math.PI);
+        this.ctx.stroke();
+    }
+
 }

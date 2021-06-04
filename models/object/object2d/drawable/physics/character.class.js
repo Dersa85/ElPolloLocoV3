@@ -94,19 +94,26 @@ class Character extends Physics {
     state = 'idle';
     keyboard;
     bottleHandler;
+    statusBarHandler;
+    bottles = 0;
+    coins = 0;
     throwCD = 500;
     lastThrow = 0;
     
-    constructor(parent, keyboard, bottleHandler) {
+    constructor(parent, keyboard, bottleHandler, statusBarHandler) {
         super(parent);
         this.keyboard = keyboard;
         this.bottleHandler = bottleHandler;
+        this.statusBarHandler = statusBarHandler;
         this.y = 180;
         this.x = 150;
         this.speedX = 0.7;
         this.ground = 180;
         this.width = 150;
         this.height = 250;
+        this.offsetY = 50;
+        this.offsetX = -5;
+        this.collisionDiameter = 50;
         this.lastInputTimeStemp = Date.now();
     }
 
@@ -255,9 +262,30 @@ class Character extends Physics {
     }
 
     throwBottle() {
+        if (this.bottles == 0) {
+            return;
+        }
         let fromX = this.getX() + 50;
         let fromY = this.getY() + 150;
         this.bottleHandler.createNewBottle(fromX, fromY, this.isImgFlipped)
-        console.log('THROW');
+        this.bottles--;
+        this.statusBarHandler.setBottles(this.bottles);
     }
+
+    addBottle() {
+        this.bottles++;
+        if (this.bottles > 5) {
+            this.bottles = 5
+        }
+        this.statusBarHandler.setBottles(this.bottles);
+    }
+
+    addCoin() {
+        this.coins++;
+        if (this.coins > 5) {
+            this.coins = 5
+        }
+        this.statusBarHandler.setCoins(this.coins);
+    }
+
 }

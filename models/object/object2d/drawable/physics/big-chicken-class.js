@@ -51,8 +51,8 @@ class BigChicken extends Physics {
         'hit': {
             'infinity': false,
             'current-index': 0,
-            'switch-timer': 50,
-            'time-left': 50,
+            'switch-timer': 100,
+            'time-left': 100,
             'paths': this.getImagesArray([
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G21.png',
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G22.png',
@@ -62,8 +62,8 @@ class BigChicken extends Physics {
         'dead': {
             'infinity': false,
             'current-index': 0,
-            'switch-timer': 50,
-            'time-left': 50,
+            'switch-timer': 100,
+            'time-left': 100,
             'paths': this.getImagesArray([
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G24.png',
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G25.png',
@@ -73,10 +73,11 @@ class BigChicken extends Physics {
     }
 
     state = 'walk';
-    canDelete = false;
+    timeOfDeath;
     attackDelay = 500;
     lastAttack = 0;
     character;
+    hp = 2;
 
     constructor(parent, character) {
         super(parent);
@@ -85,6 +86,7 @@ class BigChicken extends Physics {
         this.speedX = -0.2;
         this.width = 250;
         this.height = 250;
+        this.collisionDiameter = 120;
     }
 
     process(delta) {
@@ -101,7 +103,7 @@ class BigChicken extends Physics {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
         
-        if (!this.animations[state]['infinity'] && this.animations[state]['current-index'] == arrayLength - 1) {
+        if (!this.animations[state]['infinity'] && this.animations[state]['current-index'] == arrayLength) {
             return;
         }
 
@@ -124,6 +126,8 @@ class BigChicken extends Physics {
             this.attack();
             this.checkCanAttack();
             this.checkNobodyInNear();
+        } else if (this.state == 'hit' && this.animations[this.state]['current-index'] == this.animations[this.state]['paths'].length) {
+            this.changeStateTo('walk');
         }
     }
 
@@ -172,6 +176,17 @@ class BigChicken extends Physics {
             let xPosition = this.getX() + 185;
             let yPosition = this.getY() + 145;
             this.parent.createSmallChicken(xPosition, yPosition);
+        }
+    }
+
+    damage(value) {
+        this.hp -= value;
+        if (this.hp <= 0) {
+            this.state = 'dead';
+            this.timeOfDeath = Date.now();
+            this.speedX = 0;
+        } else {
+            this.changeStateTo('hit');
         }
     }
 }

@@ -1,11 +1,11 @@
 
 
 
-class Coin extends Physics {
+class CoinItem extends Physics {
 
     animations = {
         'idle': {
-            'infinity': true,
+            'infinity': false,
             'current-index': 0,
             'switch-timer': 100,
             'time-left': 100,
@@ -22,12 +22,16 @@ class Coin extends Physics {
         super(parent);
         this.width = 150;
         this.height = 150;
-        this.gravityPower = 0;
+        this.ground = 150;
+        this.collisionDiameter = 25;
         
     }
 
     process(delta) {
         super.process(delta);
+        if (this.isOnGround()) {
+            this.setSpeedY(-0.3);
+        }
         this.playAnimation(delta);
     }
 
@@ -35,7 +39,7 @@ class Coin extends Physics {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
         
-        if (!this.animations[state]['infinity'] && this.animations[state]['current-index'] == arrayLength - 1) {
+        if (!this.animations[state]['infinity'] && this.animations[state]['current-index'] == arrayLength) {
             return;
         }
 

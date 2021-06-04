@@ -45,10 +45,20 @@ class EnemyHandler extends Object {
 
     checkEnemyToDelete() {
         for (let i = this.enemys.length -1; i >= 0; i--) {
-            if (this.enemys[i].canDelete || this.canDeleteWhenToFarAway(this.enemys[i])) {
+            if (this.isDead(this.enemys[i]) || this.canDeleteWhenToFarAway(this.enemys[i])) {
                 this.enemys.splice(i, 1);
             }
         }
+    }
+
+    isDead(enemy) {
+        if (!enemy.timeOfDeath) {
+            return false;
+        }
+        if (enemy.timeOfDeath + 1000 > Date.now()) {
+            return false;
+        }
+        return true;
     }
 
     canDeleteWhenToFarAway(enemy) {
@@ -58,4 +68,21 @@ class EnemyHandler extends Object {
         }
         return this.character.getX() - enemy.x > distanceToCharacter;
     }
+
+    checkCollisionWithBottles(bottles) {
+        for (let j = 0; j < bottles.length; j++) {
+            let bottle = bottles[j];
+            if (bottle.isBroken()) {
+                continue;
+            }
+            for (let i = 0; i < this.enemys.length; i++) {
+                let enemy = this.enemys[i];
+                if (enemy.isCollideWith(bottle)) {
+                    bottle.switshToStateBroken();
+                    enemy.damage(1);
+                }
+            }
+        }
+    }
+        
 }

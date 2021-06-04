@@ -39,9 +39,10 @@ class Bottle extends Physics {
         super(parent);
         this.ground = 392;
         this.speedX = 0.4;
-        this.speedY = -0.4;
+        this.speedY = -0.3;
         this.width = 50;
         this.height = 50;
+        this.collisionDiameter = 20;
     }
 
     process(delta) {
@@ -79,7 +80,7 @@ class Bottle extends Physics {
 
     switshToStateBroken() {
         this.state = 'broken';
-        this.speedX = 0.1;
+        this.speedX = this.speedX * 0.5;
     }
 
     checkCanDelete() {
@@ -101,6 +102,10 @@ class Bottle extends Physics {
 
     switchFlyDirection() {
         this.speedX = this.speedX * -1;
+    }
+
+    isBroken() {
+        return this.state == 'broken';
     }
 
 }

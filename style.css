@@ -9,6 +9,7 @@ canvas {
     background-color: black;
     max-width: 800px;
     max-height: 480px;
+    width: 100%;
     object-fit: contain;
 }
 

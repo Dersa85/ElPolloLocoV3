@@ -10,6 +10,7 @@ class World {
     enemyHandler;
     levelHandler;
     itemHandler;
+    statusBarHandler;
     keyboard;
 
     fps = 60;
@@ -22,11 +23,13 @@ class World {
         this.camera = new Camera(this, canvas);
         this.itemHandler = new ItemHandler(this);
         this.bottleHandler = new BottleHandler(this);
-        this.character = new Character(this, this.keyboard, this.bottleHandler);
+        this.statusBarHandler = new StatusbarHandler(this);
+        this.character = new Character(this, this.keyboard, this.bottleHandler, this.statusBarHandler);
         this.backgroundHandler = new BackgroundHandler(this, this.character);
         this.enemyHandler = new EnemyHandler(this, this.character);
-        this.levelHandler = new LevelHandler(this, this.character, this.enemyHandler)
-        this.itemHandler.createCoint(500);
+        this.levelHandler = new LevelHandler(this, this.character, this.enemyHandler, this.itemHandler)
+        this.itemHandler.createBottle(500);
+        this.itemHandler.createCoin(500);
         //this.enemyHandler.createBigChicken(2000, 400);
         //this.enemyHandler.createSmallChicken(400, 400);
         //this.enemyHandler.createChicken(400, 400);
@@ -58,15 +61,21 @@ class World {
         return waitTime;
     }
 
+    collisionControll() {
+        this.itemHandler.checkCollisionWithCharacter(this.character);
+        this.enemyHandler.checkCollisionWithBottles(this.bottleHandler.getBottles());
+    }
 
     process(delta) {
         this.itemHandler.process(delta);
         this.levelHandler.process(delta);
         this.character.process(delta);
         this.camera.addX(this.character.getAddX());
+        this.statusBarHandler.addX(this.character.getAddX());
         this.backgroundHandler.process(delta);
         this.bottleHandler.process(delta);
         this.enemyHandler.process(delta);
+        this.collisionControll();
     }
 
     draw() {
@@ -78,6 +87,7 @@ class World {
         this.enemyHandler.draw(this.camera);
         this.itemHandler.draw(this.camera);
         this.character.draw(this.camera);
+        this.statusBarHandler.draw(this.camera);
         
         
         this.camera.removeDrawingPosition();

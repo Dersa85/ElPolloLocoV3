@@ -1,47 +1,46 @@
 
 
 
-class SmallChicken extends Physics {
+class BottleItem extends Physics {
 
     animations = {
-        'walk': {
-            'infinity': true,
+        'idle1': {
+            'infinity': false,
             'current-index': 0,
             'switch-timer': 100,
             'time-left': 100,
             'paths': this.getImagesArray([
-                './img/3.Secuencias_Enemy_básico/Versión_pollito/1.Paso_derecho.png',
-                './img/3.Secuencias_Enemy_básico/Versión_pollito/2.Centro.png',
-                './img/3.Secuencias_Enemy_básico/Versión_pollito/3.Paso_izquierdo.png',
+                './img/6.botella/2.Botella_enterrada1.png'
             ])
         },
-        'dead': {
+        'idle2': {
             'infinity': false,
             'current-index': 0,
-            'switch-timer': 1,
-            'time-left': 1,
+            'switch-timer': 100,
+            'time-left': 100,
             'paths': this.getImagesArray([
-                './img/3.Secuencias_Enemy_básico/Versión_pollito/4.Muerte.png',
+                './img/6.botella/2.Botella_enterrada2.png'
             ])
         }
     }
 
-    state = 'walk';
-    timeOfDeath;
-    hp = 1;
+    state = 'idle1';
+    canDelete = false;
 
-    constructor(parent, width, height) {
-        super(parent, width, height);
-        this.ground = 380;
-        this.speedX = -0.10;
-        this.width = 40;
-        this.height = 40;
-        this.collisionDiameter = 18;
+    constructor(parent) {
+        super(parent);
+        this.width = 50;
+        this.height = 50;
+        this.ground = 370;
+        this.collisionDiameter = 20;
+        if (Math.random() < 0.5) {
+            this.state = 'idle2';
+        }
+        
     }
 
     process(delta) {
         super.process(delta);
-        super.addX(this.speedX * delta);
         this.playAnimation(delta);
     }
 
@@ -59,21 +58,6 @@ class SmallChicken extends Physics {
             this.animations[state]['current-index'] += 1;
             let pathIndex = this.animations[state]['current-index'] % arrayLength;
             this.changeImage(this.animations[state]['paths'][pathIndex]);
-        }
-    }
-
-    stateMaschine() {
-        if (this.state == 'walk') {
-            this.checkIfDead();
-        }
-    }
-
-    damage(value) {
-        this.hp -= value;
-        if (this.hp <= 0) {
-            this.state = 'dead';
-            this.timeOfDeath = Date.now();
-            this.speedX = 0;
         }
     }
 
