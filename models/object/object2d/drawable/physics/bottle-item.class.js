@@ -25,7 +25,7 @@ class BottleItem extends Physics {
     }
 
     state = 'idle1';
-    canDelete = false;
+    SOUND_COLLECT = new Audio('./sound/bottle-collected.mp3');
 
     constructor(parent) {
         super(parent);

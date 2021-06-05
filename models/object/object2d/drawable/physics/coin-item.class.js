@@ -16,7 +16,7 @@ class CoinItem extends Physics {
     }
 
     state = 'idle';
-    canDelete = false;
+    SOUND_COLLECT = new Audio('./sound/coin-collected.mp3');
 
     constructor(parent) {
         super(parent);

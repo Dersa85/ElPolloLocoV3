@@ -33,7 +33,9 @@ class Bottle extends Physics {
     }
 
     state = 'fly';
-    canDelete = false;
+
+    SOUND_THROW = new Audio('./sound/throw.mp3');
+    SOUND_BROKEN = new Audio('./sound/bottle-broken.mp3');
 
     constructor(parent) {
         super(parent);
@@ -43,6 +45,7 @@ class Bottle extends Physics {
         this.width = 50;
         this.height = 50;
         this.collisionDiameter = 20;
+        this.SOUND_THROW.play();
     }
 
     process(delta) {
@@ -81,6 +84,7 @@ class Bottle extends Physics {
     switshToStateBroken() {
         this.state = 'broken';
         this.speedX = this.speedX * 0.5;
+        this.SOUND_BROKEN.play();
     }
 
     checkCanDelete() {

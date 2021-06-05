@@ -30,6 +30,9 @@ class Chicken extends Physics {
     timeOfDeath;
     hp = 1;
     
+    SOUND_WALK = new Audio('./sound/chicken-normal.mp3');
+    SOUND_DEAD = new Audio('./sound/small-dead.mp3');
+    waitTimeForSound = 0;
 
     constructor(parent) {
         super(parent);
@@ -38,13 +41,30 @@ class Chicken extends Physics {
         this.width = 60;
         this.height = 60;
         this.collisionDiameter = 27;
+        this.generateRandomSoundTimer();
     }
 
     process(delta) {
         super.process(delta);
         super.addX(this.speedX * delta);
         this.playAnimation(delta);
+        this.randomSoundPlayer(delta);
     }
+    
+    randomSoundPlayer(delta) {
+        if (this.state == 'dead') {
+            return;
+        }
+        
+        this.waitTimeForSound -= delta;
+    
+        if (this.waitTimeForSound <= 0) {
+            if (this.SOUND_WALK.paused) {
+                this.SOUND_WALK.play();
+            }
+            this.generateRandomSoundTimer();
+        }
+    } 
 
     playAnimation(delta) {
         let state = this.state;
@@ -69,7 +89,16 @@ class Chicken extends Physics {
             this.state = 'dead';
             this.timeOfDeath = Date.now();
             this.speedX = 0;
+            this.SOUND_DEAD.play();
         }
     }
 
+    generateRandomSoundTimer() {
+        this.waitTimeForSound = 300 + Math.random() * 5000;
+    }
+
+    setSoundVolume(value) {
+        this.SOUND_DEAD.volume = value;
+        this.SOUND_WALK.volume = value;
+    }
 }

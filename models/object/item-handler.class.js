@@ -4,6 +4,7 @@
 class ItemHandler extends Object {
 
     items = [];
+    soundVolume = 1;
 
     constructor(parent) {
         super(parent);
@@ -44,6 +45,8 @@ class ItemHandler extends Object {
                 } else if (item instanceof BottleItem) {
                     character.addBottle();
                 }
+                item.SOUND_COLLECT.volume = this.soundVolume;
+                item.SOUND_COLLECT.play();
                 this.items.splice(i, 1);
             }
         }
@@ -51,5 +54,9 @@ class ItemHandler extends Object {
 
     reset() {
         this.items = [];
+    }
+
+    setSoundVolume(value) {
+        this.soundVolume = value;
     }
 }

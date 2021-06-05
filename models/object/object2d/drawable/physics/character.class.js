@@ -110,6 +110,8 @@ class Character extends Physics {
     hp = 5;
 
     alphaWallPosX = -2000;
+    SOUND_WALK = new Audio('./sound/foots.mp3');
+    SOUND_JUMP = new Audio('./sound/jump.mp3');
     
     constructor(parent, keyboard, bottleHandler, statusBarHandler) {
         super(parent);
@@ -141,9 +143,20 @@ class Character extends Physics {
         this.moveToDirection(moveXdirection * totalSpeed * delta);
         this.checkPressedJump();
         
+        this.playSound();
         this.stateMaschine();
         
         this.playAnimation(delta);
+    }
+
+    playSound() {
+
+        if (this.isOnGround() && this.getAddX() != 0) {
+            this.SOUND_WALK.play();
+        } else if (!this.isOnGround() && this.state != 'jump' && this.state != 'falling') {
+            this.SOUND_WALK.pause();
+            this.SOUND_JUMP.play();
+        }
     }
 
     //##### ANIMATION #####//

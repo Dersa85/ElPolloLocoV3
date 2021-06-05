@@ -62,9 +62,10 @@
    
     <div id="shop-menu" class="menu-field d-none">
         <h2 style="text-align: center;">SHOP</h2>
-        
+        <p style="align-self: center;">Coins left: <span id="coin-label"></span></p>
         <div class="shop-item">
             <p style="flex: 1;">Movement Speed:</p>
+            
             <div class="upgrade-field">
                 <div id="speed-0" class="upgrade-status"></div>
                 <div id="speed-1" class="upgrade-status"></div>
@@ -96,10 +97,31 @@
         <button onclick="closeMenu()">Resume Game</button>
     </div>
 
-    <div id="options-menu" class="menu-field d-none">
-        <h2 style="text-align: center;">OPTIONS</h2>
-        <button onclick="changeScreenMode()">Full-Screen On/Off</button>
-        <button onclick="closeMenu()">Resume Game</button>
+    <div id="options-menu" class="menu-field d-none" style="flex-direction: row;">
+        <div>
+            <h2 style="text-align: center;">Menu</h2>
+
+            <button onclick="changeScreenMode()">Full-Screen On/Off</button>
+            
+            <div>
+                <p>Music Volume</p>
+                <input id="musik-volume" type="range" min="0" max="1" step="0.1" value="1" onchange="changeMusikVolume()">
+            </div>
+            <div>
+                <p>Sound Volume</p>
+                <input id="sound-volume" type="range" min="0" max="1" step="0.1" value="1" onchange="changeSoundVolume()">
+            </div>
+            <button onclick="closeMenu()">Resume Game</button>
+        
+        </div>
+        <div style="margin-left: 16px;">
+            <h2>CONTROL</h2>
+            <p><b>JUMP:</b> ARROW UP</p>
+            <p><b>LEFT:</b> ARROW LEFT</p>
+            <p><b>RIGHT:</b> ARROW RIGHT</p>
+            <p><b>THROW:</b> SPACE</p>
+            <p><b>OPEN SHOP:</b> "S"</p>
+        </div>
     </div>
 
 </body>

@@ -27,6 +27,7 @@ class StartScreen extends Drawable {
         super.draw(camera);
         camera.ctx.font = "40px Georgia";
         camera.ctx.fillStyle = "yellow";
-        camera.ctx.fillText('Press "Space" to start!!', 200, 70);
+        camera.ctx.fillText('Press "ESC" for the Menu', 190, 70);
+        camera.ctx.fillText('or "Space" to start Game', 190, 110);
     }
 }

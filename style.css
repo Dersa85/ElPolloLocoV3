@@ -61,6 +61,7 @@ canvas {
     height: 1.7vw;
     margin-left: 4px;
     margin-right: 4px;
+    border-radius: 100%;
 }
 
 .has-upgrade {

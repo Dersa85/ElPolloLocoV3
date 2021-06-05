@@ -5,6 +5,7 @@ class EnemyHandler extends Object {
 
     enemys = [];
     character;
+    soundVolume = 1;
 
     constructor(parent, character) {
         super(parent);
@@ -25,6 +26,7 @@ class EnemyHandler extends Object {
     }
     createBigChicken(posX, posY) {
         let enemy = new BigChicken(this, this.character);
+        enemy.setSoundVolume(this.soundVolume);
         enemy.setX(posX);
         enemy.setY(posY);
         this.enemys.push(enemy);
@@ -89,4 +91,10 @@ class EnemyHandler extends Object {
         this.enemys = [];
     }
         
+    setSoundVolume(value) {
+        this.soundVolume = value;
+        this.enemys.forEach(enemy => {
+            enemy.setSoundVolume(value);
+        });
+    }
 }

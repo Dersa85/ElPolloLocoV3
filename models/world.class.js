@@ -18,6 +18,8 @@ class World {
 
     isStopped = false;
 
+    SOUND_BACKGROUND = new Audio('./sound/background-musik.mp3');
+
     constructor(canvas) {
         this.canvas = canvas;
         this.keyboard = new Keyboard();
@@ -69,6 +71,7 @@ class World {
     }
 
     process(delta) {
+        this.SOUND_BACKGROUND.play();
         if (this.isStopped) {
             return;
         }
@@ -127,4 +130,14 @@ class World {
         return !this.startScreen.isActive;
     }
 
+    changeBackgroundVolume(value) {
+        this.SOUND_BACKGROUND.volume = value;
+    }
+
+    changeSoundVolume(value) {
+        this.character.SOUND_WALK.volume = value;
+        this.character.SOUND_JUMP.volume = value;
+        this.bottleHandler.setSoundVolume(value);
+        this.enemyHandler.setSoundVolume(value);
+    }
 }

@@ -79,6 +79,9 @@ class BigChicken extends Physics {
     character;
     hp = 2;
 
+    SOUND_ATTACK = new Audio('./sound/big-chicken-attack.mp3');
+    SOUND_ANGRY = new Audio('./sound/big-chicken-angry.mp3');
+
     constructor(parent, character) {
         super(parent);
         this.character = character;
@@ -144,6 +147,7 @@ class BigChicken extends Physics {
     checkPlayerInRange() {
         if (this.x - this.character.x < 350) {
             this.changeStateTo('alert');
+            this.SOUND_ANGRY.play();
         }
     }
 
@@ -153,6 +157,7 @@ class BigChicken extends Physics {
         if (this.animations[state]['current-index'] != arrayLength - 1) {
             return
         }
+        this.SOUND_ATTACK.play();
         this.changeStateTo('attack');
     }
 
@@ -188,5 +193,10 @@ class BigChicken extends Physics {
         } else {
             this.changeStateTo('hit');
         }
+    }
+
+    setSoundVolume(value) {
+        this.SOUND_ATTACK.volume = value;
+        this.SOUND_ANGRY.volume = value;
     }
 }

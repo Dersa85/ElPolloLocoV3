@@ -46,6 +46,7 @@ function openShop() {
 }
 
 function refreshShop() {
+    document.getElementById('coin-label').innerText = world.character.coins;
     refreshUpgrade(world.character.movemetSpeedUpgrade, 'speed')
     refreshUpgrade(world.character.jumpPowerUpgrade, 'jump')
     refreshUpgrade(world.character.throwPowerUpgrade, 'throw')
@@ -95,12 +96,22 @@ function throwUpgrade() {
     refreshShop();
 }
 
+function changeMusikVolume() {
+    let volume = document.getElementById('musik-volume').value;
+    world.changeBackgroundVolume(volume)
+}
+
+function changeSoundVolume() {
+    let volume = document.getElementById('sound-volume').value;
+    world.changeSoundVolume(volume);
+}
+
 addEventListener('keydown', e => {
-    if (!world.isGameRunning()) {
-        return;
-    }
+    
     if (e.code == 'KeyS') {
-        openShop();
+        if (world.isGameRunning()) {
+            openShop();
+        }
     } else if (e.code == 'Escape') {
         openOptions()
     }

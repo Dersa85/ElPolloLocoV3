@@ -30,6 +30,8 @@ class SmallChicken extends Physics {
     timeOfDeath;
     hp = 1;
 
+    SOUND_DEAD = new Audio('./sound/small-dead.mp3');
+
     constructor(parent, width, height) {
         super(parent, width, height);
         this.ground = 380;
@@ -74,6 +76,7 @@ class SmallChicken extends Physics {
             this.state = 'dead';
             this.timeOfDeath = Date.now();
             this.speedX = 0;
+            this.SOUND_DEAD.play();
         }
     }
 

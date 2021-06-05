@@ -4,6 +4,7 @@ class BottleHandler extends Object {
 
 
     bottles = [];
+    soundVolume = 1;
 
     constructor(parent) {
         super(parent);
@@ -12,6 +13,8 @@ class BottleHandler extends Object {
 
     createNewBottle(posX, posY, throwLeft, addPower) {
         let bottle = new Bottle(this);
+        bottle.SOUND_THROW.volume = this.soundVolume;
+        bottle.SOUND_BROKEN.volume = this.soundVolume;
         bottle.setX(posX);
         bottle.setY(posY);
         bottle.speedX += addPower;
@@ -48,6 +51,14 @@ class BottleHandler extends Object {
 
     reset() {
         this.bottles = [];
+    }
+
+    setSoundVolume(value) {
+        this.soundVolume = value;
+        this.bottles.forEach(bottle => {
+            bottle.SOUND_THROW.volume = value;
+            bottle.SOUND_BROKEN.volume = value;
+        });
     }
     
 }
