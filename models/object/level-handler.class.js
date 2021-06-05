@@ -61,4 +61,9 @@ class LevelHandler extends Object {
         let x = this.character.getX() + 1000;
             this.itemHandler.createCoin(x);
     }
+
+    reset() {
+        this.nextPrimaryStage = 1;
+        this.nextSecundaryStage = 1;
+    }
 }

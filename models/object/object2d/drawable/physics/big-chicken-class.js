@@ -86,7 +86,7 @@ class BigChicken extends Physics {
         this.speedX = -0.2;
         this.width = 250;
         this.height = 250;
-        this.collisionDiameter = 120;
+        this.collisionDiameter = 110;
     }
 
     process(delta) {

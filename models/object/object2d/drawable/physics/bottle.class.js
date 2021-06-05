@@ -39,7 +39,7 @@ class Bottle extends Physics {
         super(parent);
         this.ground = 392;
         this.speedX = 0.4;
-        this.speedY = -0.3;
+        this.speedY = -0.1;
         this.width = 50;
         this.height = 50;
         this.collisionDiameter = 20;

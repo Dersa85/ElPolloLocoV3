@@ -36,7 +36,7 @@
                     <script src="./models/object/object2d/drawable/background/ground.class.js"></script>
             
             <script src="./models/object/object2d/drawable/physics.class.js"></script>
-                
+            
                 <script src="./models/object/object2d/drawable/physics/bottle-item.class.js"></script>
                 <script src="./models/object/object2d/drawable/physics/coin-item.class.js"></script>
                 <script src="./models/object/object2d/drawable/physics/small-chicken.class.js"></script>
@@ -44,8 +44,10 @@
                 <script src="./models/object/object2d/drawable/physics/big-chicken-class.js"></script>
                 <script src="./models/object/object2d/drawable/physics/character.class.js"></script>
                 <script src="./models/object/object2d/drawable/physics/bottle.class.js"></script>
+            
+            <script src="./models/object/object2d/drawable/start-screen.class.js"></script>
     
-    <script src="./script/game.js"></script>
+            <script src="./script/game.js"></script>
     
     <title>El pollo loco</title>
 </head>
@@ -55,8 +57,50 @@
     <h1 id="titel">El pollo loco</h1>
 
     <canvas id="canvas" width="800" height="480">
-
+        
     </canvas>
+   
+    <div id="shop-menu" class="menu-field d-none">
+        <h2 style="text-align: center;">SHOP</h2>
+        
+        <div class="shop-item">
+            <p style="flex: 1;">Movement Speed:</p>
+            <div class="upgrade-field">
+                <div id="speed-0" class="upgrade-status"></div>
+                <div id="speed-1" class="upgrade-status"></div>
+                <div id="speed-2" class="upgrade-status"></div>
+            </div>
+            <button id='upgrade-button-speed' class="button" onclick="speedUpgrade()">Upgrade for: <span id='cost-speed'>1</span> Coint</button>
+        </div>
+        
+        <div class="shop-item">
+            <p style="flex: 1;">Jump power:</p>
+            <div class="upgrade-field">
+                <div id="jump-0" class="upgrade-status"></div>
+                <div id="jump-1" class="upgrade-status"></div>
+                <div id="jump-2" class="upgrade-status"></div>
+            </div>
+            <button id='upgrade-button-jump' class="button" onclick="jumpUpgrade()">Upgrade for: <span id='cost-jump'>1</span> Coint</button>
+        </div>
+
+        <div class="shop-item">
+            <p style="flex: 1;">Throw power:</p>
+            <div class="upgrade-field">
+                <div id="throw-0" class="upgrade-status"></div>
+                <div id="throw-1" class="upgrade-status"></div>
+                <div id="throw-2" class="upgrade-status"></div>
+            </div>
+            <button id='upgrade-button-throw' class="button" onclick="throwUpgrade()">Upgrade for: <span id='cost-throw'>1</span> Coint</button>
+        </div>
+        
+        <button onclick="closeMenu()">Resume Game</button>
+    </div>
+
+    <div id="options-menu" class="menu-field d-none">
+        <h2 style="text-align: center;">OPTIONS</h2>
+        <button onclick="changeScreenMode()">Full-Screen On/Off</button>
+        <button onclick="closeMenu()">Resume Game</button>
+    </div>
 
 </body>
 

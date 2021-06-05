@@ -75,5 +75,7 @@ class BackgroundHandler extends Object {
         }
     }
 
-    
+    reset() {
+        
+    }
 }

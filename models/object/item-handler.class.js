@@ -48,4 +48,8 @@ class ItemHandler extends Object {
             }
         }
     }
+
+    reset() {
+        this.items = [];
+    }
 }

@@ -89,16 +89,27 @@ class Character extends Physics {
         }
     }
 
-    jumpPower = -0.7;
+    movemetSpeedUpgrade = 0;
+    jumpPowerUpgrade = 0;
+    throwPowerUpgrade = 0;
+    
+    jumpPower = -0.6;
+    
     lastInputTimeStemp;
     state = 'idle';
+    
     keyboard;
+    
     bottleHandler;
     statusBarHandler;
+    
     bottles = 0;
     coins = 0;
     throwCD = 500;
     lastThrow = 0;
+    hp = 5;
+
+    alphaWallPosX = -2000;
     
     constructor(parent, keyboard, bottleHandler, statusBarHandler) {
         super(parent);
@@ -107,7 +118,7 @@ class Character extends Physics {
         this.statusBarHandler = statusBarHandler;
         this.y = 180;
         this.x = 150;
-        this.speedX = 0.7;
+        this.speedX = 0.4;
         this.ground = 180;
         this.width = 150;
         this.height = 250;
@@ -125,8 +136,9 @@ class Character extends Physics {
 
         this.checkThrow();
 
+        let totalSpeed = this.speedX + this.movemetSpeedUpgrade * 0.1;
         let moveXdirection = this.pressedForMovingHorizontal();
-        this.moveToDirection(moveXdirection * this.speedX * delta);
+        this.moveToDirection(moveXdirection * totalSpeed * delta);
         this.checkPressedJump();
         
         this.stateMaschine();
@@ -174,7 +186,7 @@ class Character extends Physics {
 
     checkPressedJump() {
         if (this.isOnGround() && this.keyboard.isPressedUp()) {
-            this.setSpeedY(this.jumpPower);
+            this.setSpeedY(this.jumpPower - (this.jumpPowerUpgrade * 0.09));
         }
     }
 
@@ -258,7 +270,17 @@ class Character extends Physics {
         } else if (value > 0) {
             this.isImgFlipped = false;
         }
-        super.addX(value);
+        if (value > 0) {
+            super.addX(value);
+        } else if (this.alphaWallPosX > this.getX()) {
+            super.addX(0);
+        } else {
+            super.addX(value);
+        }
+        if (this.getX() - this.alphaWallPosX > 2000) {
+            this.alphaWallPosX = this.getX() - 2000;
+        }
+        
     }
 
     throwBottle() {
@@ -267,7 +289,8 @@ class Character extends Physics {
         }
         let fromX = this.getX() + 50;
         let fromY = this.getY() + 150;
-        this.bottleHandler.createNewBottle(fromX, fromY, this.isImgFlipped)
+        let addPower = this.throwPowerUpgrade * 0.2
+        this.bottleHandler.createNewBottle(fromX, fromY, this.isImgFlipped, addPower)
         this.bottles--;
         this.statusBarHandler.setBottles(this.bottles);
     }
@@ -288,4 +311,22 @@ class Character extends Physics {
         this.statusBarHandler.setCoins(this.coins);
     }
 
+    removeCoin(value) {
+        this.coins -= value;
+        this.statusBarHandler.setCoins(this.coins);
+    }
+
+    reset() {
+        this.movemetSpeedUpgrade = 0;
+        this.jumpPowerUpgrade = 0;
+        this.throwPowerUpgrade = 0;
+        this.state = 'idle';
+        this.lastInputTimeStemp;
+        this.bottles = 0;
+        this.coins = 0;
+        this.hp = 5;
+        this.alphaWallPosX = -2000;
+        this.setX(150);
+        this.lastInputTimeStemp = Date.now();
+    }
 }

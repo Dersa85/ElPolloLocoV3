@@ -84,5 +84,9 @@ class EnemyHandler extends Object {
             }
         }
     }
+
+    reset() {
+        this.enemys = [];
+    }
         
 }

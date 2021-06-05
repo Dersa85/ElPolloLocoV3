@@ -10,10 +10,11 @@ class BottleHandler extends Object {
     }
 
 
-    createNewBottle(posX, posY, throwLeft) {
+    createNewBottle(posX, posY, throwLeft, addPower) {
         let bottle = new Bottle(this);
         bottle.setX(posX);
         bottle.setY(posY);
+        bottle.speedX += addPower;
         if (throwLeft) {
             bottle.switchFlyDirection();
         }
@@ -45,5 +46,8 @@ class BottleHandler extends Object {
         return this.bottles;
     }
 
+    reset() {
+        this.bottles = [];
+    }
     
 }

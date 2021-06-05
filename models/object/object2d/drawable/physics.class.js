@@ -11,8 +11,8 @@ class Physics extends Drawable {
     
     collisionDiameter = 30;
 
-    constructor(parent, width, height) {
-        super(parent, width, height);
+    constructor(parent) {
+        super(parent);
     }
 
     process(delta) {

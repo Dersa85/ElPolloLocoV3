@@ -11,11 +11,12 @@ class World {
     levelHandler;
     itemHandler;
     statusBarHandler;
+    startScreen;
     keyboard;
 
     fps = 60;
 
-    
+    isStopped = false;
 
     constructor(canvas) {
         this.canvas = canvas;
@@ -28,6 +29,7 @@ class World {
         this.backgroundHandler = new BackgroundHandler(this, this.character);
         this.enemyHandler = new EnemyHandler(this, this.character);
         this.levelHandler = new LevelHandler(this, this.character, this.enemyHandler, this.itemHandler)
+        this.startScreen = new StartScreen(this, this.keyboard);
         this.itemHandler.createBottle(500);
         this.itemHandler.createCoin(500);
         //this.enemyHandler.createBigChicken(2000, 400);
@@ -67,30 +69,62 @@ class World {
     }
 
     process(delta) {
-        this.itemHandler.process(delta);
-        this.levelHandler.process(delta);
-        this.character.process(delta);
-        this.camera.addX(this.character.getAddX());
-        this.statusBarHandler.addX(this.character.getAddX());
-        this.backgroundHandler.process(delta);
-        this.bottleHandler.process(delta);
-        this.enemyHandler.process(delta);
-        this.collisionControll();
+        if (this.isStopped) {
+            return;
+        }
+        if (this.startScreen.isActive) {
+            this.startScreen.process(delta);
+        } else {
+            this.itemHandler.process(delta);
+            this.levelHandler.process(delta);
+            this.character.process(delta);
+            this.camera.addX(this.character.getAddX());
+            this.statusBarHandler.addX(this.character.getAddX());
+            this.backgroundHandler.process(delta);
+            this.bottleHandler.process(delta);
+            this.enemyHandler.process(delta);
+            this.collisionControll();
+        }
     }
 
     draw() {
         this.camera.clear();
         this.camera.setDrawingPosition();
         
-        this.backgroundHandler.draw(this.camera);
-        this.bottleHandler.draw(this.camera);
-        this.enemyHandler.draw(this.camera);
-        this.itemHandler.draw(this.camera);
-        this.character.draw(this.camera);
-        this.statusBarHandler.draw(this.camera);
-        
+        if (this.startScreen.isActive) {
+            this.startScreen.draw(this.camera);
+        } else {
+            this.backgroundHandler.draw(this.camera);
+            this.bottleHandler.draw(this.camera);
+            this.enemyHandler.draw(this.camera);
+            this.itemHandler.draw(this.camera);
+            this.character.draw(this.camera);
+            this.statusBarHandler.draw(this.camera);
+        }
         
         this.camera.removeDrawingPosition();
+    }
+
+    resume() {
+        this.isStopped = false;
+    }
+
+    menuOpen() {
+        this.isStopped = true;
+    }
+
+    newGame() {
+        this.itemHandler.reset();
+        this.bottleHandler.reset();
+        this.character.reset();
+        this.backgroundHandler.reset();
+        this.enemyHandler.reset();
+        this.levelHandler.reset();
+        this.startScreen.isActive = false;
+    }
+
+    isGameRunning() {
+        return !this.startScreen.isActive;
     }
 
 }
