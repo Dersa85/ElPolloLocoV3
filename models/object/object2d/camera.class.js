@@ -29,4 +29,8 @@ class Camera extends Object2D {
         this.ctx.stroke();
     }
 
+    reset() {
+        this.x = 0;
+    }
+
 }

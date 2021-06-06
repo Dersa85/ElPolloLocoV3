@@ -12,6 +12,10 @@ class BackgroundHandler extends Object {
     constructor(parent, character) {
         super(parent);
         this.character = character;
+        this.createNewBackgrounds();
+    }
+
+    createNewBackgrounds() {
         this.addSky();
         this.addMovablebackgroundInArray(this.clouds, Cloud);
         this.addMovablebackgroundInArray(this.mountains, Mountains);
@@ -76,6 +80,11 @@ class BackgroundHandler extends Object {
     }
 
     reset() {
-        
+        this.skys = [];
+        this.clouds = [];
+        this.mountains = [];
+        this.hills = [];
+        this.grounds = [];
+        this.createNewBackgrounds();
     }
 }

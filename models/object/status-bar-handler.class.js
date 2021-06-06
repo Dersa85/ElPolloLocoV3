@@ -33,4 +33,14 @@ class StatusbarHandler extends Object {
     setCoins(value) {
         this.coinBar.setValue(value);
     }
+
+    setHp(value) {
+        this.hpBar.setValue(value);
+    }
+
+    reset() {
+        this.hpBar.x = 20;
+        this.bottleBar.x = 20;
+        this.coinBar.x = 20;
+    }
 }

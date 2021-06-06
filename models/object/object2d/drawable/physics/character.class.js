@@ -86,6 +86,34 @@ class Character extends Physics {
                 './img/2.Secuencias_Personaje-Pepe-correccion/3.Secuencia_salto/J-38.png',
                 './img/2.Secuencias_Personaje-Pepe-correccion/3.Secuencia_salto/J-39.png'
             ])
+        },
+        'hurt': {
+            'infinity': true,
+            'current-index': 0,
+            'switch-timer': 50,
+            'time-left': 50,
+            'paths': this.getImagesArray([
+                './img/2.Secuencias_Personaje-Pepe-correccion/4.Herido/H-41.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/4.Herido/H-42.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/4.Herido/H-43.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/4.Herido/H-42.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/4.Herido/H-41.png'
+            ])
+        },
+        'dead': {
+            'infinity': false,
+            'current-index': 0,
+            'switch-timer': 70,
+            'time-left': 70,
+            'paths': this.getImagesArray([
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-51.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-52.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-53.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-54.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-55.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-56.png',
+                './img/2.Secuencias_Personaje-Pepe-correccion/5.Muerte/D-57.png'
+            ])
         }
     }
 
@@ -95,6 +123,8 @@ class Character extends Physics {
     
     jumpPower = -0.6;
     
+    showEndScreenTimer = 2000;
+    invincibleTimer = 0;
     lastInputTimeStemp;
     state = 'idle';
     
@@ -112,6 +142,8 @@ class Character extends Physics {
     alphaWallPosX = -2000;
     SOUND_WALK = new Audio('./sound/foots.mp3');
     SOUND_JUMP = new Audio('./sound/jump.mp3');
+    SOUND_HURT = new Audio('./sound/hurt.mp3');
+    SOUND_DEAD = new Audio('./sound/dead.mp3');
     
     constructor(parent, keyboard, bottleHandler, statusBarHandler) {
         super(parent);
@@ -136,12 +168,18 @@ class Character extends Physics {
             this.lastInputTimeStemp = Date.now();
         }
 
-        this.checkThrow();
+        if (this.state != 'dead') {
+            this.invincibleTimer -= delta;
+            this.checkThrow();
+    
+            let totalSpeed = this.speedX + this.movemetSpeedUpgrade * 0.1;
+            let moveXdirection = this.pressedForMovingHorizontal();
+            this.moveToDirection(moveXdirection * totalSpeed * delta);
+            this.checkPressedJump();
+        } else {
+            this.showEndScreenTimer -= delta;
+        }
 
-        let totalSpeed = this.speedX + this.movemetSpeedUpgrade * 0.1;
-        let moveXdirection = this.pressedForMovingHorizontal();
-        this.moveToDirection(moveXdirection * totalSpeed * delta);
-        this.checkPressedJump();
         
         this.playSound();
         this.stateMaschine();
@@ -150,7 +188,6 @@ class Character extends Physics {
     }
 
     playSound() {
-
         if (this.isOnGround() && this.getAddX() != 0) {
             this.SOUND_WALK.play();
         } else if (!this.isOnGround() && this.state != 'jump' && this.state != 'falling') {
@@ -213,7 +250,11 @@ class Character extends Physics {
     //##### CHECK STATE #####//
 
     stateMaschine() {
-        if (this.state == 'idle') {
+        if (this.state == 'hurt') {
+            this.checkForIdle();
+            this.checkForWalk();
+            this.checkForJump();
+        } else if (this.state == 'idle') {
             this.checkForLongIdle();
             this.checkForWalk();
             this.checkForJump();
@@ -231,11 +272,16 @@ class Character extends Physics {
         } else if (this.state == 'long-idle') {
             this.checkForWalk();
             this.checkForJump();
+        } else if (this.state == 'dead') {
+            this.checkShowEndScreen();
         }
 
     }
 
     checkForIdle() {
+        if (this.invincibleTimer > 0) {
+            return;
+        }
         if (!this.keyboard.isMovingPressed()) {
             this.changeStateTo('idle');
         }
@@ -248,12 +294,18 @@ class Character extends Physics {
     }
 
     checkForWalk() {
+        if (this.invincibleTimer > 0) {
+            return;
+        }
         if (this.getAddX() != 0) {
             this.changeStateTo('walk');
         }
     }
 
     checkForJump() {
+        if (this.invincibleTimer > 0) {
+            return;
+        }
         if (!this.isOnGround()) {
             this.changeStateTo('jump');
         }
@@ -269,6 +321,12 @@ class Character extends Physics {
         if (this.isOnGround()) {
             this.changeStateTo('landing');
         }
+    }
+
+    checkShowEndScreen() {
+        if (this.showEndScreenTimer <= 0) {
+            this.parent.showEndScreen();
+        } 
     }
 
 
@@ -341,5 +399,28 @@ class Character extends Physics {
         this.alphaWallPosX = -2000;
         this.setX(150);
         this.lastInputTimeStemp = Date.now();
+        this.statusBarHandler.setHp(this.hp);
+        this.showEndScreenTimer = 2000;
+    }
+
+    damage(value) {
+        if (this.invincibleTimer > 0) {
+            return;
+        }
+        this.invincibleTimer = 500;
+        this.hp -= value;
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
+        this.statusBarHandler.setHp(this.hp);
+
+        if (this.hp > 0) {
+            this.changeStateTo('hurt');
+            this.SOUND_HURT.play();
+        } else {
+            this.changeStateTo('dead');
+            this.SOUND_DEAD.play();
+            super.addX(0);
+        }
     }
 }

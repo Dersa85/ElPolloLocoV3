@@ -19,7 +19,7 @@ class ItemHandler extends Object {
     createCoin(posX) {
         let coin = new CoinItem(this);
         coin.setX(posX);
-        coin.setY(100);
+        coin.setY(200);
         this.items.push(coin);
     }
 
@@ -54,6 +54,7 @@ class ItemHandler extends Object {
 
     reset() {
         this.items = [];
+        this.createCoin(500);
     }
 
     setSoundVolume(value) {

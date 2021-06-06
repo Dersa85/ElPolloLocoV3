@@ -6,6 +6,7 @@ class StartScreen extends Drawable {
 
     keyboard;
     isActive = true;
+    reactionDelay = 500;
 
     constructor(parent, keyboard) {
         super(parent);
@@ -16,7 +17,8 @@ class StartScreen extends Drawable {
     }
 
     process(delta) {
-        if (this.keyboard.isNothingPressed()) {
+        this.reactionDelay -= delta;
+        if (!this.keyboard.isPressedFire() || this.reactionDelay >= 0) {
             return;
         }
         console.log('START GAME')
@@ -29,5 +31,10 @@ class StartScreen extends Drawable {
         camera.ctx.fillStyle = "yellow";
         camera.ctx.fillText('Press "ESC" for the Menu', 190, 70);
         camera.ctx.fillText('or "Space" to start Game', 190, 110);
+    }
+
+    open() {
+        this.isActive = true;
+        this.reactionDelay = 500;
     }
 }

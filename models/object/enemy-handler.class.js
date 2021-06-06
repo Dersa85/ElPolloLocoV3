@@ -71,6 +71,21 @@ class EnemyHandler extends Object {
         return this.character.getX() - enemy.x > distanceToCharacter;
     }
 
+    checkCollisionWithCharacter() {
+        for (let i = 0; i < this.enemys.length; i++) {
+            let enemy = this.enemys[i];
+            if (enemy.hp <= 0) {
+                continue;
+            }
+            if (enemy.isCollideWith(this.character)) {
+                if (this.character.hp <= 0) {
+                    break;
+                }
+                this.character.damage(1);
+            }
+        }
+    }
+
     checkCollisionWithBottles(bottles) {
         for (let j = 0; j < bottles.length; j++) {
             let bottle = bottles[j];
@@ -79,6 +94,9 @@ class EnemyHandler extends Object {
             }
             for (let i = 0; i < this.enemys.length; i++) {
                 let enemy = this.enemys[i];
+                if (enemy.hp <= 0) {
+                    continue;
+                }
                 if (enemy.isCollideWith(bottle)) {
                     bottle.switshToStateBroken();
                     enemy.damage(1);

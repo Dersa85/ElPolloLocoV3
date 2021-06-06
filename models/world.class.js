@@ -12,6 +12,7 @@ class World {
     itemHandler;
     statusBarHandler;
     startScreen;
+    endScreen;
     keyboard;
 
     fps = 60;
@@ -32,12 +33,15 @@ class World {
         this.enemyHandler = new EnemyHandler(this, this.character);
         this.levelHandler = new LevelHandler(this, this.character, this.enemyHandler, this.itemHandler)
         this.startScreen = new StartScreen(this, this.keyboard);
+        this.endScreen = new EndScreen(this, this.keyboard);
         this.itemHandler.createBottle(500);
         this.itemHandler.createCoin(500);
         //this.enemyHandler.createBigChicken(2000, 400);
         //this.enemyHandler.createSmallChicken(400, 400);
         //this.enemyHandler.createChicken(400, 400);
         //this.bottleHandler.createNewBottle(200, 200); //TEST
+
+        this.showEndScreen();
     }
 
     start() {
@@ -68,6 +72,7 @@ class World {
     collisionControll() {
         this.itemHandler.checkCollisionWithCharacter(this.character);
         this.enemyHandler.checkCollisionWithBottles(this.bottleHandler.getBottles());
+        this.enemyHandler.checkCollisionWithCharacter();
     }
 
     process(delta) {
@@ -75,7 +80,9 @@ class World {
         if (this.isStopped) {
             return;
         }
-        if (this.startScreen.isActive) {
+        if (this.endScreen.isActive) {
+            this.endScreen.process(delta);
+        }else if (this.startScreen.isActive) {
             this.startScreen.process(delta);
         } else {
             this.itemHandler.process(delta);
@@ -92,20 +99,25 @@ class World {
 
     draw() {
         this.camera.clear();
+        
         this.camera.setDrawingPosition();
         
+        this.backgroundHandler.draw(this.camera);
+        this.bottleHandler.draw(this.camera);
+        this.enemyHandler.draw(this.camera);
+        this.itemHandler.draw(this.camera);
+        this.character.draw(this.camera);
+        this.tutorialText();
+        this.statusBarHandler.draw(this.camera);
+
+        this.camera.removeDrawingPosition();
+
+        if (this.endScreen.isActive) {
+            this.endScreen.draw(this.camera);
+        }
         if (this.startScreen.isActive) {
             this.startScreen.draw(this.camera);
-        } else {
-            this.backgroundHandler.draw(this.camera);
-            this.bottleHandler.draw(this.camera);
-            this.enemyHandler.draw(this.camera);
-            this.itemHandler.draw(this.camera);
-            this.character.draw(this.camera);
-            this.statusBarHandler.draw(this.camera);
         }
-        
-        this.camera.removeDrawingPosition();
     }
 
     resume() {
@@ -123,6 +135,8 @@ class World {
         this.backgroundHandler.reset();
         this.enemyHandler.reset();
         this.levelHandler.reset();
+        this.camera.reset();
+        this.statusBarHandler.reset();
         this.startScreen.isActive = false;
     }
 
@@ -139,5 +153,23 @@ class World {
         this.character.SOUND_JUMP.volume = value;
         this.bottleHandler.setSoundVolume(value);
         this.enemyHandler.setSoundVolume(value);
+        this.itemHandler.setSoundVolume(value);
+    }
+
+    tutorialText() {
+        this.camera.ctx.font = "20px Georgia";
+        this.camera.ctx.fillStyle = "yellow";
+        this.camera.ctx.fillText('Collect and press "S" for Shop', 450, 150);
+    }
+
+    showEndScreen() {
+        this.endScreen.setDeadCheckpoint(this.levelHandler.nextSecundaryStage -1);
+        this.endScreen.isActive = true;
+        console.log('Show EndScreen')
+    }
+
+    endScreenClosed() {
+        this.endScreen.isActive = false;
+        this.startScreen.open();
     }
 }
