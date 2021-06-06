@@ -51,8 +51,8 @@ class BigChicken extends Physics {
         'hit': {
             'infinity': false,
             'current-index': 0,
-            'switch-timer': 100,
-            'time-left': 100,
+            'switch-timer': 150,
+            'time-left': 150,
             'paths': this.getImagesArray([
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G21.png',
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G22.png',
@@ -62,8 +62,8 @@ class BigChicken extends Physics {
         'dead': {
             'infinity': false,
             'current-index': 0,
-            'switch-timer': 100,
-            'time-left': 100,
+            'switch-timer': 150,
+            'time-left': 150,
             'paths': this.getImagesArray([
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G24.png',
                 './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G25.png',
