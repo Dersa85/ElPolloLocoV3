@@ -401,6 +401,8 @@ class Character extends Physics {
         this.lastInputTimeStemp = Date.now();
         this.statusBarHandler.setHp(this.hp);
         this.showEndScreenTimer = 2000;
+        this.statusBarHandler.setBottles(this.bottles);
+        this.statusBarHandler.setCoins(this.coins);
     }
 
     damage(value) {

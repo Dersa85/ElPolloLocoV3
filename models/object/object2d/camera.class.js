@@ -4,6 +4,7 @@ class Camera extends Object2D {
 
     canvas;
     ctx;
+    debugModus = false;
 
     constructor(parent, canvas) {
         super(parent);
@@ -24,9 +25,11 @@ class Camera extends Object2D {
     }
 
     drawCollisionCircle(object) {
-        this.ctx.beginPath();
-        this.ctx.arc(object.getCenterX(), object.getCenterY(), object.collisionDiameter, 0, 2 * Math.PI);
-        this.ctx.stroke();
+        if (this.debugModus == true) {
+            this.ctx.beginPath();
+            this.ctx.arc(object.getCenterX(), object.getCenterY(), object.collisionDiameter, 0, 2 * Math.PI);
+            this.ctx.stroke();
+        }
     }
 
     reset() {
