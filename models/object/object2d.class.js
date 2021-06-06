@@ -1,6 +1,6 @@
 
 
-class Object2D extends Object {
+class Object2D extends GameObject {
 
     x = 0;
     y = 0;

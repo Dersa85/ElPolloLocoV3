@@ -1,7 +1,7 @@
 
 
 
-class LevelHandler extends Object {
+class LevelHandler extends GameObject {
 
     character;
     enemyHandler;

@@ -1,7 +1,7 @@
 
 
 
-class StatusbarHandler extends Object {
+class StatusbarHandler extends GameObject {
 
     hpBar;
     bottleBar;

@@ -1,7 +1,7 @@
 
 
 
-class ItemHandler extends Object {
+class ItemHandler extends GameObject {
 
     items = [];
     soundVolume = 1;

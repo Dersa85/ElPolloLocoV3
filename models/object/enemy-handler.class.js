@@ -1,6 +1,6 @@
 
 
-class EnemyHandler extends Object {
+class EnemyHandler extends GameObject {
 
 
     enemys = [];

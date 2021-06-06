@@ -1,6 +1,6 @@
 
 
-class BackgroundHandler extends Object {
+class BackgroundHandler extends GameObject {
 
     character;
     skys = [];

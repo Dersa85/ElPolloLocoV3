@@ -1,6 +1,6 @@
 
 
-class BottleHandler extends Object {
+class BottleHandler extends GameObject {
 
 
     bottles = [];
