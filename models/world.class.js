@@ -1,4 +1,7 @@
 
+/**
+ * The World class is the main class for the game. The class have the total control of the game procedure
+ */
 
 class World {
 
@@ -15,8 +18,10 @@ class World {
     endScreen;
     keyboard;
 
+    /** Set the frame per secounds */
     fps = 60;
 
+    /** If true then deactivate the process function in game objects */
     isStopped = false;
 
     SOUND_BACKGROUND = new Audio('./sound/background-musik.mp3');
@@ -36,18 +41,22 @@ class World {
         this.endScreen = new EndScreen(this, this.keyboard);
         this.itemHandler.createBottle(500);
         this.itemHandler.createCoin(500);
-        //this.enemyHandler.createBigChicken(2000, 400);
-        //this.enemyHandler.createSmallChicken(400, 400);
-        //this.enemyHandler.createChicken(400, 400);
-        //this.bottleHandler.createNewBottle(200, 200); //TEST
 
         this.showEndScreen();
     }
 
+    /**
+     * Activate the gameloop
+     */
     start() {
         this.gameLoop();
     }
 
+    /**
+     * The main loop for the game 
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     gameLoop(delta = 0) {
         let startTimeStemp = Date.now()
 
@@ -60,6 +69,12 @@ class World {
         }, waitTime);
     }
 
+    /**
+     * Calculate the wait time for the fps
+     * 
+     * @param {number} startTimeStemp - This is the time stemp of begin from frame
+     * @returns {number} - Waiting time not to exceed the fps
+     */
     getWaitTimeForNextFrame(startTimeStemp) {
         let timePast = Date.now() - startTimeStemp;
         let waitTime = 1000 / this.fps - timePast;
@@ -69,12 +84,21 @@ class World {
         return waitTime;
     }
 
+    /**
+     * Check the collisions
+     */
     collisionControll() {
         this.itemHandler.checkCollisionWithCharacter(this.character);
         this.enemyHandler.checkCollisionWithBottles(this.bottleHandler.getBottles());
         this.enemyHandler.checkCollisionWithCharacter();
     }
 
+    /**
+     * Controls the logical processing of all objects
+     * 
+     * @param {number} delta - This is duration of the last frame
+     * @returns {null}
+     */
     process(delta) {
         this.SOUND_BACKGROUND.play();
         if (this.isStopped) {
@@ -97,6 +121,9 @@ class World {
         }
     }
 
+    /**
+     * Controls the drawing on canvas of all objects
+     */
     draw() {
         this.camera.clear();
         
@@ -120,14 +147,23 @@ class World {
         }
     }
 
+    /**
+     * Resume the game
+     */
     resume() {
         this.isStopped = false;
     }
 
+    /**
+     * Stop the game
+     */
     menuOpen() {
         this.isStopped = true;
     }
 
+    /**
+     * Reset all objects to default
+     */
     newGame() {
         this.itemHandler.reset();
         this.bottleHandler.reset();
@@ -140,14 +176,29 @@ class World {
         this.startScreen.isActive = false;
     }
 
+    /**
+     * Check is the start screen close.
+     * 
+     * @returns {boolean}
+     */
     isGameRunning() {
         return !this.startScreen.isActive;
     }
 
+    /**
+     * Change the background volume in game
+     * 
+     * @param {number} value - This is the new volume value
+     */
     changeBackgroundVolume(value) {
         this.SOUND_BACKGROUND.volume = value;
     }
 
+    /**
+     * Change the sound volume in game
+     * 
+     * @param {number} value - This is the new volume value
+     */
     changeSoundVolume(value) {
         this.character.SOUND_WALK.volume = value;
         this.character.SOUND_JUMP.volume = value;
@@ -156,18 +207,27 @@ class World {
         this.itemHandler.setSoundVolume(value);
     }
 
+    /**
+     * Draw the Text information in game for the shop
+     */
     tutorialText() {
         this.camera.ctx.font = "20px Georgia";
         this.camera.ctx.fillStyle = "yellow";
         this.camera.ctx.fillText('Collect and press "S" for Shop', 450, 150);
     }
 
+    /**
+     * Activate end screen
+     */
     showEndScreen() {
         this.endScreen.setDeadCheckpoint(this.levelHandler.nextSecundaryStage -1);
         this.endScreen.isActive = true;
         console.log('Show EndScreen')
     }
 
+    /**
+     * Closing the end screen
+     */
     endScreenClosed() {
         this.endScreen.isActive = false;
         this.startScreen.open();

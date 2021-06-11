@@ -32,6 +32,11 @@ class EnemyHandler extends GameObject {
         this.enemys.push(enemy);
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         for (let i = 0; i < this.enemys.length; i++) {
             this.enemys[i].process(delta);

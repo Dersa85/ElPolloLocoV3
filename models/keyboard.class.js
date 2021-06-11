@@ -1,4 +1,5 @@
 
+/** The Class processes the control of the character*/
 
 class Keyboard {
 
@@ -36,21 +37,56 @@ class Keyboard {
         });
     }
 
+    /**
+     * Check if can move right
+     * 
+     * @returns {boolean}
+     */
     isPressedRight() {
         return !this.LEFT && this.RIGHT;
     }
+
+    /**
+     * Check if can move left
+     * 
+     * @returns {boolean}
+     */
     isPressedLeft() {
         return this.LEFT && !this.RIGHT;
     }
+
+    /**
+     * Check if nothing pressed
+     * 
+     * @returns {boolean}
+     */
     isNothingPressed() {
         return !(this.RIGHT || this.LEFT || this.SPACE || this.UP);
     }
+
+    /**
+     * Check if moving left or right
+     * 
+     * @returns {boolean}
+     */
     isMovingPressed() {
         return this.RIGHT || this.LEFT
     }
+
+    /**
+     * Check if want jump
+     * 
+     * @returns {boolean}
+     */
     isPressedUp() {
         return this.UP;
     }
+
+    /**
+     * Check if want throt bottle
+     * 
+     * @returns {boolean}
+     */
     isPressedFire() {
         return this.SPACE;
     }
