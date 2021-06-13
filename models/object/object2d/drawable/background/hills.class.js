@@ -1,5 +1,9 @@
 
-
+/**
+ * This is the background for hills
+ * 
+ * @extends Background
+ */
 class Hills extends Background {
 
     constructor(parent, width, height) {

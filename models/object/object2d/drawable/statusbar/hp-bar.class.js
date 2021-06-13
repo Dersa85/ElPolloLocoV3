@@ -1,5 +1,9 @@
 
-
+/**
+ * This is the status bar for health points
+ * 
+ * @extends StatusBar
+ */
 class HpBar extends StatusBar {
 
 

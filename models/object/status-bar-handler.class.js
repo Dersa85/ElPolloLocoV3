@@ -1,5 +1,9 @@
 
-/** The class is a container and handler for all bars in the game */
+/** 
+ * The class is a container and handler for all bars in the game
+ * 
+ * @extends GameObject
+ */
 
 class StatusbarHandler extends GameObject {
 

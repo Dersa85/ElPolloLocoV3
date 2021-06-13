@@ -1,5 +1,9 @@
 
-
+/**
+ * This is the background for clouds
+ * 
+ * @extends Background
+ */
 class Cloud extends Background {
 
     constructor(parent, width, height) {

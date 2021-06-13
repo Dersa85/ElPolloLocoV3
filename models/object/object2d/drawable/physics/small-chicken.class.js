@@ -1,8 +1,13 @@
 
 
-
+/**
+ * This object is displayed in the game is provided with a collision and has a simple process
+ * 
+ * @extends Physics
+ */
 class SmallChicken extends Physics {
 
+    /** All animation callable with the key as state */
     animations = {
         'walk': {
             'infinity': true,
@@ -25,9 +30,12 @@ class SmallChicken extends Physics {
             ])
         }
     }
-
+    
+    /** Current state, is for the animation important */
     state = 'walk';
+    /** If setted then can delete after x time */
     timeOfDeath;
+    /** Current hp */
     hp = 1;
 
     SOUND_DEAD = new Audio('./sound/small-dead.mp3');
@@ -41,12 +49,23 @@ class SmallChicken extends Physics {
         this.collisionDiameter = 18;
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         super.process(delta);
         super.addX(this.speedX * delta);
         this.playAnimation(delta);
     }
 
+    /**
+     * This play the current animation and switch the image if time is over
+     * 
+     * @param {number} delta - This is duration of the last frame
+     * @returns {void}
+     */
     playAnimation(delta) {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
@@ -64,12 +83,18 @@ class SmallChicken extends Physics {
         }
     }
 
+    /** processes the change of animations */
     stateMaschine() {
         if (this.state == 'walk') {
             this.checkIfDead();
         }
     }
 
+    /**
+     * This reduce the current hp and switch the current state if needed
+     * 
+     * @param {number} value - This value reduce the hp
+     */
     damage(value) {
         this.hp -= value;
         if (this.hp <= 0) {
@@ -79,5 +104,4 @@ class SmallChicken extends Physics {
             this.SOUND_DEAD.play();
         }
     }
-
 }

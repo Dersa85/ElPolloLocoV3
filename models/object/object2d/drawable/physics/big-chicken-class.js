@@ -1,8 +1,13 @@
 
 
-
+/**
+ * This object is displayed in the game is provided with a collision and has a simple process
+ * 
+ * @extends Physics
+ */
 class BigChicken extends Physics {
 
+    /** All animation callable with the key as state */
     animations = {
         'walk': {
             'infinity': true,
@@ -72,11 +77,16 @@ class BigChicken extends Physics {
         }
     }
 
+    /** Current state, is for the animation important */
     state = 'walk';
+    /** If setted then can delete after x time */
     timeOfDeath;
+    /** Delay time between attacks */
     attackDelay = 500;
+    /** Last attack time stamp */
     lastAttack = 0;
     character;
+    /** Current hp */
     hp = 2;
 
     SOUND_ATTACK = new Audio('./sound/big-chicken-attack.mp3');
@@ -92,6 +102,11 @@ class BigChicken extends Physics {
         this.collisionDiameter = 110;
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         super.process(delta);
         if (this.state == 'walk') {
@@ -102,6 +117,12 @@ class BigChicken extends Physics {
         this.playAnimation(delta);
     }
 
+    /**
+     * This play the current animation and switch the image if time is over
+     * 
+     * @param {number} delta - This is duration of the last frame
+     * @returns {void}
+     */
     playAnimation(delta) {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
@@ -119,6 +140,7 @@ class BigChicken extends Physics {
         }
     }
 
+    /** processes the change of animations */
     stateMaschine() {
         if (this.state == 'walk') {
             this.checkIfDead();
@@ -134,16 +156,14 @@ class BigChicken extends Physics {
         }
     }
 
-    checkIfDead() {
-
-    }
-
+    /** Check if character not in near then walk */
     checkNobodyInNear() {
         if (this.x - this.character.x > 500) {
             this.changeStateTo('walk');
         }
     }
 
+    /** If player in range then change state to 'alert' */
     checkPlayerInRange() {
         if (this.x - this.character.x < 350) {
             this.changeStateTo('alert');
@@ -151,6 +171,11 @@ class BigChicken extends Physics {
         }
     }
 
+    /**
+     * Check if player in range and try attack
+     * 
+     * @returns {void}
+     */
     checkCanAttack() {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
@@ -161,17 +186,30 @@ class BigChicken extends Physics {
         this.changeStateTo('attack');
     }
 
+    /**
+     * Reset current state and set a new state
+     * 
+     * @param {string} newState - This is the new state
+     */
     changeStateTo(newState) {
         this.resetOldAnimation();
         this.state = newState;
     }
 
+    /**
+     * Reset current state
+     */
     resetOldAnimation() {
         this.animations[this.state]['finished'] = false;
         this.animations[this.state]['current-index'] = 0;
         this.animations[this.state]['time-left'] = this.animations[this.state]['switch-timer'];
     }
 
+    /**
+     * Try to attack
+     * 
+     * @returns {void}
+     */
     attack() {
         if (this.animations[this.state]['current-index'] != 5) {
             return;
@@ -184,6 +222,11 @@ class BigChicken extends Physics {
         }
     }
 
+    /**
+     * This reduce the current hp and switch the current state if needed
+     * 
+     * @param {number} value - This value reduce the hp
+     */
     damage(value) {
         this.hp -= value;
         if (this.hp <= 0) {
@@ -195,6 +238,11 @@ class BigChicken extends Physics {
         }
     }
 
+    /**
+     * Change the sound volume
+     * 
+     * @param {number} value - This is the new volume value
+     */
     setSoundVolume(value) {
         this.SOUND_ATTACK.volume = value;
         this.SOUND_ANGRY.volume = value;

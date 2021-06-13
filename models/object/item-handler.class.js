@@ -1,5 +1,9 @@
 
-/** This class is a container and handler for collectable items such as bottles and coins */
+/**
+ * This class is a container and handler for collectable items such as bottles and coins
+ * 
+ * @extends GameObject
+ */
 
 class ItemHandler extends GameObject {
 
@@ -46,7 +50,11 @@ class ItemHandler extends GameObject {
         this.items.push(coin);
     }
 
-    /** Draw all items */
+    /**
+     * Draw all items
+     * 
+     * @param {Camera} camera - This is the camera object which is responsible for the drawing
+     */
     draw(camera) {
         for (let i = 0; i < this.items.length; i++) {
             this.items[i].draw(camera);

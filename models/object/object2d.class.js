@@ -1,6 +1,9 @@
 
-/** This class add all function for the moving and positions from objects */
-
+/**
+ * This class add all function for the moving and positions from objects 
+ * 
+ * @extends GameObject
+ */
 class Object2D extends GameObject {
 
     x = 0;

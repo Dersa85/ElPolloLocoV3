@@ -1,5 +1,9 @@
 
-
+/**
+ * This is the status bar for bottle counter
+ * 
+ * @extends StatusBar
+ */
 class BottleBar extends StatusBar {
 
 

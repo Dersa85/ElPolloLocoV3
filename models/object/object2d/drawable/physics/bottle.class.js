@@ -1,8 +1,13 @@
 
 
-
+/**
+ * This object is displayed in the game is provided with a collision and damaged enemys
+ * 
+ * @extends Physics
+ */
 class Bottle extends Physics {
 
+    /** All animation callable with the key as state */
     animations = {
         'fly': {
             'infinity': true,
@@ -32,6 +37,7 @@ class Bottle extends Physics {
         }
     }
 
+    /** Current state, is for the animation important */
     state = 'fly';
 
     SOUND_THROW = new Audio('./sound/throw.mp3');
@@ -48,6 +54,11 @@ class Bottle extends Physics {
         this.SOUND_THROW.play();
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         super.process(delta);
         super.addX(this.speedX * delta);
@@ -57,7 +68,12 @@ class Bottle extends Physics {
         this.playAnimation(delta);
     }
 
-    
+    /**
+     * This play the current animation and switch the image if time is over
+     * 
+     * @param {number} delta - This is duration of the last frame
+     * @returns {void}
+     */
     playAnimation(delta) {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
@@ -75,18 +91,27 @@ class Bottle extends Physics {
         }
     }
 
+    /**
+     * Check if object collide with ground
+     */
     checkCollisionWithOnGround() {
         if (this.isOnGround()) {
             this.switshToStateBroken()
         }
     }
 
+    /**
+     * Switch the state to 'brocken'
+     */
     switshToStateBroken() {
         this.state = 'broken';
         this.speedX = this.speedX * 0.5;
         this.SOUND_BROKEN.play();
     }
 
+    /**
+     * Check if can delete
+     */
     checkCanDelete() {
         let totalCounter = this.animations[this.state]['paths'].length -1;
         let currentCounter = this.animations[this.state]['current-index']
@@ -96,6 +121,7 @@ class Bottle extends Physics {
         }
     }
     
+    /** processes the change of animations */
     stateMaschine() {
         if (this.state == 'fly') {
             this.checkCollisionWithOnGround();
@@ -104,10 +130,16 @@ class Bottle extends Physics {
         }
     }
 
+    /** Switch the speedX to negative */
     switchFlyDirection() {
         this.speedX = this.speedX * -1;
     }
 
+    /**
+     * Return if state is 'brocken'
+     * 
+     * @returns {boolean}
+     */
     isBroken() {
         return this.state == 'broken';
     }

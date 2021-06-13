@@ -1,6 +1,10 @@
 
 
-/** The class is a container and handler for character, all enemys and all collectable items */
+/**
+ * The class is a container and handler for character, all enemys and all collectable items
+ * 
+ * @extends GameObject
+ */
 
 class LevelHandler extends GameObject {
 

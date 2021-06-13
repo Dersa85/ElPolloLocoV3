@@ -1,8 +1,13 @@
 
 
-
+/**
+ * This object is displayed in the game is provided with a collision and has a simple process
+ * 
+ * @extends Physics
+ */
 class Character extends Physics {
 
+    /** All animation callable with the key as state */
     animations = {
         'idle': {
             'infinity': true,
@@ -117,15 +122,22 @@ class Character extends Physics {
         }
     }
 
+    /** Modificate move speed */
     movemetSpeedUpgrade = 0;
+    /** Modificate jump power */
     jumpPowerUpgrade = 0;
+    /** Modificate throw power */
     throwPowerUpgrade = 0;
-    
+    /** Jump power */
     jumpPower = -0.6;
     
+    /** If dead then count down */
     showEndScreenTimer = 2000;
+    /** By damage cant take new damage directly */
     invincibleTimer = 0;
+    /** last input for the long-idle state */
     lastInputTimeStemp;
+    /** Current state, is for the animation important */
     state = 'idle';
     
     keyboard;
@@ -162,6 +174,11 @@ class Character extends Physics {
         this.lastInputTimeStemp = Date.now();
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         super.process(delta);
         if (!this.keyboard.isNothingPressed()) {
@@ -187,6 +204,9 @@ class Character extends Physics {
         this.playAnimation(delta);
     }
 
+    /**
+     * Playing sounds walk and jump
+     */
     playSound() {
         if (this.isOnGround() && this.getAddX() != 0) {
             this.SOUND_WALK.play();
@@ -197,6 +217,11 @@ class Character extends Physics {
     }
 
     //##### ANIMATION #####//
+    /**
+     * 
+     * @param {number} delta - This is duration of the last frame
+     * @returns 
+     */
     playAnimation(delta) {
         let state = this.state;
         let arrayLength = this.animations[state]['paths'].length;
@@ -214,6 +239,9 @@ class Character extends Physics {
         }
     }
 
+    /**
+     * Reset the current state animation
+     */
     resetOldAnimation() {
         this.animations[this.state]['finished'] = false;
         this.animations[this.state]['current-index'] = 0;
@@ -221,10 +249,20 @@ class Character extends Physics {
     }
     
     //##### CHECK KEYBOARD #####//
+    /**
+     * Check if pressed a move command to character
+     * 
+     * @returns {boolean}
+     */
     isSomeonePressed() {
         return !this.keyboard.isNothingPressed();
     }
 
+    /**
+     * Get the direction for moving
+     * 
+     * @returns {number}
+     */
     pressedForMovingHorizontal() {
         if (this.keyboard.isPressedRight()) {
             return 1;
@@ -234,12 +272,18 @@ class Character extends Physics {
         return 0;
     }
 
+    /**
+     * check if pressed to jump the character
+     */
     checkPressedJump() {
         if (this.isOnGround() && this.keyboard.isPressedUp()) {
             this.setSpeedY(this.jumpPower - (this.jumpPowerUpgrade * 0.09));
         }
     }
 
+    /**
+     * check if pressed to throw the bottle
+     */
     checkThrow() {
         if(this.keyboard.isPressedFire() && Date.now() - this.lastThrow > this.throwCD) {
             this.throwBottle()
@@ -249,6 +293,7 @@ class Character extends Physics {
 
     //##### CHECK STATE #####//
 
+    /** processes the change of animations */
     stateMaschine() {
         if (this.state == 'hurt') {
             this.checkForIdle();
@@ -278,6 +323,11 @@ class Character extends Physics {
 
     }
 
+    /**
+     * check if, can switch state to 'idle'
+     * 
+     * @returns {void}
+     */
     checkForIdle() {
         if (this.invincibleTimer > 0) {
             return;
@@ -287,12 +337,22 @@ class Character extends Physics {
         }
     }
 
+    /**
+     * check if, can switch state to 'long-idle'
+     * 
+     * @returns {void}
+     */
     checkForLongIdle() {
         if (Date.now() - this.lastInputTimeStemp >= 5000) { // is no control over 5 secounds
             this.changeStateTo('long-idle');
         }
     }
 
+    /**
+     * check if, can switch state to 'walk'
+     * 
+     * @returns {void}
+     */
     checkForWalk() {
         if (this.invincibleTimer > 0) {
             return;
@@ -302,6 +362,11 @@ class Character extends Physics {
         }
     }
 
+    /**
+     * check if, can switch state to 'jump'
+     * 
+     * @returns {void}
+     */
     checkForJump() {
         if (this.invincibleTimer > 0) {
             return;
@@ -311,30 +376,51 @@ class Character extends Physics {
         }
     }
 
+    /**
+     * check if, can switch state to 'falling'
+     * 
+     * @returns {void}
+     */
     checkForFalling() {
         if (!this.isOnGround() && this.getSpeedY() > 0) {
             this.changeStateTo('falling');
         }
     }
 
+    /**
+     * check if, can switch state to 'landing'
+     * 
+     * @returns {void}
+     */
     checkForLanding() {
         if (this.isOnGround()) {
             this.changeStateTo('landing');
         }
     }
 
+    /**
+     * Check if can switch to end screen
+     */
     checkShowEndScreen() {
         if (this.showEndScreenTimer <= 0) {
             this.parent.showEndScreen();
         } 
     }
 
-
+    /**
+     * Reset old state and switch current state
+     * 
+     * @param {string} newState - This is the new state
+     */
     changeStateTo(newState) {
         this.resetOldAnimation();
         this.state = newState;
     }
 
+    /**
+     * 
+     * @param {number} value - This is the move direction -1, 0 or 1
+     */
     moveToDirection(value) {
         if (value < 0) {
             this.isImgFlipped = true;
@@ -354,6 +440,11 @@ class Character extends Physics {
         
     }
 
+    /**
+     * Throw bottle from character
+     * 
+     * @returns {void}
+     */
     throwBottle() {
         if (this.bottles == 0) {
             return;
@@ -366,6 +457,9 @@ class Character extends Physics {
         this.statusBarHandler.setBottles(this.bottles);
     }
 
+    /**
+     * Add to current bottle value +1. Can not have more then 5
+     */
     addBottle() {
         this.bottles++;
         if (this.bottles > 5) {
@@ -374,6 +468,9 @@ class Character extends Physics {
         this.statusBarHandler.setBottles(this.bottles);
     }
 
+    /**
+     * Add to current coin value +1. Can not have more then 5
+     */
     addCoin() {
         this.coins++;
         if (this.coins > 5) {
@@ -382,11 +479,19 @@ class Character extends Physics {
         this.statusBarHandler.setCoins(this.coins);
     }
 
+    /**
+     * Reduce the coin value. Quantity is determined by the shop
+     * 
+     * @param {number} value - This reduce the current coin value
+     */
     removeCoin(value) {
         this.coins -= value;
         this.statusBarHandler.setCoins(this.coins);
     }
 
+    /**
+     * Reset the object
+     */
     reset() {
         this.movemetSpeedUpgrade = 0;
         this.jumpPowerUpgrade = 0;
@@ -405,6 +510,11 @@ class Character extends Physics {
         this.statusBarHandler.setCoins(this.coins);
     }
 
+    /**
+     * This reduce the current hp and switch the current state if needed
+     * 
+     * @param {number} value - This value reduce the hp
+     */
     damage(value) {
         if (this.invincibleTimer > 0) {
             return;

@@ -1,12 +1,17 @@
 
-
+/**
+ * This is the end screen of the game.
+ * 
+ * @extends Drawable
+ */
 
 class EndScreen extends Drawable {
 
 
     keyboard;
+    /** Say is the class aktive or not */
     isActive = false;
-
+    /** Show how many stages has the player clear */
     deadByCheckpoint = 0;
 
     constructor(parent, keyboard) {
@@ -17,6 +22,11 @@ class EndScreen extends Drawable {
         this.height = 480;
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         if (!this.keyboard.isPressedFire()) {
             return;
@@ -24,6 +34,11 @@ class EndScreen extends Drawable {
         this.parent.endScreenClosed();
     }
 
+    /**
+     * Drawing the class
+     * 
+     * @param {Camera} camera - This is the camera object which is responsible for the drawing
+     */
     draw(camera) {
         super.draw(camera);
         camera.ctx.font = "40px Georgia";
@@ -33,6 +48,11 @@ class EndScreen extends Drawable {
         camera.ctx.fillText(`Press "SPACE" for a new game`, 130, 450);
     }
 
+    /**
+     * Set how many stage has the player clear
+     * 
+     * @param {*} stage - This is the stage are clear
+     */
     setDeadCheckpoint(stage) {
         this.deadByCheckpoint = stage;
     }

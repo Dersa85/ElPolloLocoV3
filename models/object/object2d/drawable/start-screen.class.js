@@ -1,11 +1,17 @@
 
 
+/**
+ * This is the start screen of the game.
+ * 
+ * @extends Drawable
+ */
 
 class StartScreen extends Drawable {
 
-
     keyboard;
+    /** Say is the class aktive or not */
     isActive = true;
+    /** delay time for interaction */
     reactionDelay = 500;
 
     constructor(parent, keyboard) {
@@ -16,6 +22,11 @@ class StartScreen extends Drawable {
         this.height = 480;
     }
 
+    /**
+     * Controls the logical processing of this object
+     * 
+     * @param {number} delta - This is duration of the last frame
+     */
     process(delta) {
         this.reactionDelay -= delta;
         if (!this.keyboard.isPressedFire() || this.reactionDelay >= 0) {
@@ -25,6 +36,11 @@ class StartScreen extends Drawable {
         this.parent.newGame();
     }
 
+    /**
+     * Drawing the class
+     * 
+     * @param {Camera} camera - This is the camera object which is responsible for the drawing
+     */
     draw(camera) {
         super.draw(camera);
         camera.ctx.font = "40px Georgia";
@@ -33,6 +49,9 @@ class StartScreen extends Drawable {
         camera.ctx.fillText('or "Space" to start Game', 190, 110);
     }
 
+    /**
+     * Show the screen and set new interaction delay
+     */
     open() {
         this.isActive = true;
         this.reactionDelay = 500;

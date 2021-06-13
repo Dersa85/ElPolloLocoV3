@@ -1,5 +1,9 @@
 
-
+/**
+ * This is the background for ground
+ * 
+ * @extends Background
+ */
 class Ground extends Background {
 
     constructor(parent, width, height) {

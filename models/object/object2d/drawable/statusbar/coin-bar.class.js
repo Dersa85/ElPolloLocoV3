@@ -1,5 +1,9 @@
 
-
+/**
+ * This is the status bar for coins
+ * 
+ * @extends StatusBar
+ */
 class CoinBar extends StatusBar {
 
 
